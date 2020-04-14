@@ -1,0 +1,42 @@
+show databases;
+use information_schema;
+show tables;
+
+#получение списка зависимых таблиц
+select table_name as main, referenced_table_name as depend from referential_constraints where constraint_schema='sessia';
+
+#получение количество атрибутов таблицы
+select tables.table_name as 'table', count(columns.column_name) AS colomn from tables,columns where tables.table_name = columns.table_name AND columns.table_schema = 'sessia' and tables . table_schema = 'sessia' group by tables.table_name;
+
+#получение атрибутов, входящих в состав первичного ключа
+select table_name, count(table_name) from (
+SELECT table_name
+FROM  information_schema.key_column_usage k
+where constraint_schema='sessia'
+and constraint_name='PRIMARY'
+) a
+group by table_name;
+
+#индексы
+select table_name, non_unique, index_name, column_name from statistics
+where TABLE_SCHEMA = 'sessia';
+
+#для расчёта сложности таблицы:
+#получение количества атрибутов таблиц в БД
+select count(columns.column_name) as col from tables,columns where tables.table_name=columns.table_name and columns.table_schema='sessia' and tables.table_schema='sessia';
+#количество первичных ключейв в БД
+select count(table_name) as pk from (SELECT table_name FROM  key_column_usage where constraint_schema='sessia' and constraint_name='PRIMARY')a;
+#количество внешних ключей в БД
+select count(constraint_type) as fk from table_constraints where constraint_type='FOREIGN KEY' and table_schema='sessia';
+#уникальные индексы
+select count(non_unique) as ind_u from statistics where table_schema='sessia' and non_unique=0;
+#неуникальные индексы
+select count(non_unique) as ind_nu from statistics where table_schema='sessia' and non_unique=1;
+
+#одним запросом:
+select col,pk,fk,ind_u,ind_nu from
+(select count(columns.column_name) as col from tables,columns where tables.table_name=columns.table_name and columns.table_schema='sessia' and tables.table_schema='sessia')t1,
+(select count(table_name) as pk from (SELECT table_name FROM  key_column_usage where constraint_schema='sessia' and constraint_name='PRIMARY')a)t2,
+(select count(constraint_type) as fk from table_constraints where constraint_type='FOREIGN KEY' and table_schema='sessia')t3,
+(select count(non_unique) as ind_u from statistics where table_schema='sessia' and non_unique=0)t4,
+(select count(non_unique) as ind_nu from statistics where table_schema='sessia' and non_unique=1)t5;
