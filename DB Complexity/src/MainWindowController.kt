@@ -149,7 +149,21 @@ class MainWindowController
         }
     }
 
-    @FXML fun handleButtonSettings(event: ActionEvent) {}
+    @FXML fun handleButtonSettings(event: ActionEvent)
+    {
+        val loader = FXMLLoader()
+        loader.location = javaClass.getResource("WeightParameters.fxml")
+        try {
+            loader.load<Any>()
+        } catch (ex: IOException) {ex.printStackTrace()}
+
+        val stage = Stage()
+        stage.scene = Scene(loader.getRoot())
+        stage.title = GLOBAL.TITLE + " - весовые коэффициенты"
+        stage.isResizable = false
+        stage.icons.add(Image(GLOBAL.ICONURL))
+        stage.show()
+    }
 
     @FXML fun handleButtonCalculateDBComplexity(event: ActionEvent) //открытие окна расчёта сложности БД
     {

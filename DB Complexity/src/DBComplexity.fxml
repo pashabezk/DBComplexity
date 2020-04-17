@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DBComplexityController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="515.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DBComplexityController">
    <children>
       <Label fx:id="fxTitle" alignment="CENTER" layoutX="152.0" layoutY="57.0" text="Сложность БД" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
          <font>
@@ -38,27 +38,27 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="fxCol" layoutX="409.0" layoutY="90.0" prefHeight="20.0" prefWidth="43.0" text="1" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="90.0">
+      <Label fx:id="fxCol" layoutX="409.0" layoutY="90.0" prefHeight="20.0" prefWidth="43.0" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="90.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="fxPK" layoutX="410.0" layoutY="130.0" prefHeight="20.0" prefWidth="43.0" text="1" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="130.0">
+      <Label fx:id="fxPK" layoutX="410.0" layoutY="130.0" prefHeight="20.0" prefWidth="43.0" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="130.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="fxFK" layoutX="432.0" layoutY="170.0" prefHeight="20.0" prefWidth="43.0" text="1" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="170.0">
+      <Label fx:id="fxFK" layoutX="432.0" layoutY="170.0" prefHeight="20.0" prefWidth="43.0" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="170.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="fxIndU" layoutX="410.0" layoutY="210.0" prefHeight="20.0" prefWidth="43.0" text="1" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="210.0">
+      <Label fx:id="fxIndU" layoutX="410.0" layoutY="210.0" prefHeight="20.0" prefWidth="43.0" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="210.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="fxIndNU" layoutX="410.0" layoutY="250.0" prefHeight="20.0" prefWidth="43.0" text="1" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="250.0">
+      <Label fx:id="fxIndNU" layoutX="410.0" layoutY="250.0" prefHeight="20.0" prefWidth="43.0" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="250.0">
          <font>
             <Font size="14.0" />
          </font>
@@ -69,7 +69,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="fxDBC" layoutX="410.0" layoutY="300.0" prefHeight="20.0" prefWidth="43.0" text="1" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="300.0">
+      <Label fx:id="fxDBC" layoutX="410.0" layoutY="300.0" prefHeight="20.0" prefWidth="50.0" AnchorPane.leftAnchor="410.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="300.0">
          <font>
             <Font size="14.0" />
          </font>

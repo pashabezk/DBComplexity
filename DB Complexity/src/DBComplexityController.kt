@@ -3,6 +3,7 @@ import javafx.fxml.FXML
 import javafx.scene.Node
 import javafx.scene.control.Label
 import javafx.stage.Stage
+import java.text.DecimalFormat
 
 
 class DBComplexityController
@@ -27,12 +28,19 @@ class DBComplexityController
         fxIndU.text = "" + metrics[3]
         fxIndNU.text = "" + metrics[4]
 
-        var complexity:Int  = metrics[0] + metrics[1] + metrics[2] + metrics[3] + metrics[4]
-        fxDBC.text = "" + complexity
+        val DFormat = DecimalFormat() //форматирование вывода переменной типа double
+        DFormat.maximumFractionDigits = 3
+        DFormat.minimumFractionDigits = 0
+        DFormat.isGroupingUsed = false
+
+        var complexity:Double  =  0.0
+        for (i in 0 until GLOBAL.NumMetrics)
+            complexity += metrics[i].toDouble() * GLOBAL.WMetrics[i]
+        fxDBC.text = "" + DFormat.format(complexity)
     }
 
     @FXML fun handleButtonOK(event: ActionEvent)
     {
-        ((event.getSource() as Node).getScene().getWindow() as Stage).close() //закрыть текущее окно
+        ((event.source as Node).scene.window as Stage).close() //закрыть текущее окно
     }
 }

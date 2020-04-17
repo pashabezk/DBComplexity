@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="520.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WeightParametersController">
+   <children>
+      <GridPane fx:id="fxGridPane" gridLinesVisible="true" layoutX="43.0" layoutY="55.0" prefHeight="215.0" prefWidth="332.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="290.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="39.0" vgrow="ALWAYS" />
+          <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+          <RowConstraints maxHeight="33.0" minHeight="10.0" prefHeight="29.0" valignment="CENTER" vgrow="ALWAYS" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+        </rowConstraints>
+         <children>
+            <Label text="M1" GridPane.rowIndex="1" />
+            <Label text="M2" GridPane.rowIndex="2" />
+            <Label text="M3" GridPane.rowIndex="3" />
+            <Label text="M4" GridPane.rowIndex="4" />
+            <Label text="M5" GridPane.rowIndex="5" />
+            <Label text="M1" GridPane.columnIndex="1" />
+            <Label text="M2" GridPane.columnIndex="2" />
+            <Label text="M3" GridPane.columnIndex="3" />
+            <Label text="M4" GridPane.columnIndex="4" />
+            <Label text="M5" GridPane.columnIndex="5" />
+         </children>
+      </GridPane>
+      <Label alignment="CENTER" layoutX="83.0" layoutY="51.0" text="Настройка весовых коэффициентов" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="37.0" layoutY="66.0" text="M1 - Количество атрибутов таблицы" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="90.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="30.0" layoutY="111.0" text="M2 - Количество атрибутов в составе первичного ключа" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="130.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="321.0" layoutY="111.0" text="M3 - Количество внешних ключей" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="170.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="321.0" layoutY="141.0" text="M4 - Количество уникальных индексов" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="210.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="327.0" layoutY="172.0" text="M5 - Количество неуникальных индексов" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="250.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button layoutX="518.0" layoutY="474.0" mnemonicParsing="false" onAction="#handleButtonCalculate" text="Рассчитать" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="30.0" />
+   </children>
+</AnchorPane>

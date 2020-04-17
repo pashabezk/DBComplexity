@@ -31,9 +31,9 @@
                 <Button mnemonicParsing="false" onAction="#handleButtonSettings" text="Настройки" />
             </buttons>
         </ButtonBar>
-        <Label alignment="TOP_LEFT" layoutY="-2.0" prefHeight="43.0" prefWidth="213.0" text="DB Complexity" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0">
+        <Label layoutY="-2.0" prefHeight="43.0" prefWidth="249.0" text="DB Complexity" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0">
             <font>
-                <Font name="Segoe Script" size="23.0" />
+                <Font name="Yu Gothic Bold" size="23.0" />
             </font>
         </Label>
     </children>
