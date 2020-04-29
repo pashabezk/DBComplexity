@@ -152,7 +152,8 @@ class MainWindowController
     @FXML fun handleButtonSettings(event: ActionEvent)
     {
         val loader = FXMLLoader()
-        loader.location = javaClass.getResource("WeightParameters.fxml")
+//        loader.location = javaClass.getResource("WeightParameters.fxml")
+        loader.location = javaClass.getResource("Settings.fxml")
         try {
             loader.load<Any>()
         } catch (ex: IOException) {ex.printStackTrace()}

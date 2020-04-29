@@ -1,3 +1,8 @@
+#cd C:\Program Files\MySQL\MySQL Server 5.5\bin
+#mysql -u root -p1234
+#mysqldump -u root -p1234 sessia > C:/Users/pasha/Desktop/sss.sql
+#mysqldump -u root -p1234 -hlocalhost db1 < C:/Users/pasha/Desktop/sss.sql
+
 show databases;
 use information_schema;
 show tables;
