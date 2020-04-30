@@ -27,7 +27,8 @@ class MainWindowController
     @FXML private lateinit var fxDrawPane: AnchorPane
     @FXML private lateinit var lbSelectDB: Label
 
-    private var tables: ArrayList<TableDrawObject> = ArrayList()
+    //private var tablesOld: ArrayList<TableDrawObject> = ArrayList()
+    private var tables: ArrayList<TableShape> = ArrayList()
     private var arrows: ArrayList<ArrowDrawObject> = ArrayList()
 
     fun initialize()
@@ -42,20 +43,13 @@ class MainWindowController
             {
                 arrows = newValue?.let { DBHandler.getDependTables(it) }!! //получение списка зависимых таблиц
                 for(i in 0 until al.size)
-                    tables.add(TableDrawObject(al[i]))
+                    tables.add(TableShape(al[i]))
                 draw()
             }
         }
 
         fxDrawPane.widthProperty().addListener { observable, oldValue, newValue -> draw() } //прослушиватель на изменение ширины окна
         fxDrawPane.heightProperty().addListener { observable, oldValue, newValue -> draw() } // прослушиватель на изменение высоты окна
-    }
-
-    private class TableDrawObject (name: String)
-    {
-        var name: String = name
-        var X: Double = 0.0
-        var Y: Double = 0.0
     }
 
     public class ArrowDrawObject (mainTable: String, dependTable: String)
@@ -70,12 +64,6 @@ class MainWindowController
 
     private fun draw()
     {
-        var clrTblNSelected = Color.ORANGE //цвет не выбранного прямоугольника
-        var clrTblNameNSelected = Color.DARKGREEN //цвет не выбранного текста
-
-        var clrTblSelected = Color.web("#560074") //цвет выбранного прямоугольника (a6000e)
-        var clrTblNameSelected = Color.DARKVIOLET //цвет не выбранного текста
-
         if (tables.isNotEmpty()) //если таблицы не получены, то очищать не надо (необходимо, чтобы при первом заходе был виден лейбл "выберите БД")
             fxSecondPane.children.remove(lbSelectDB) //удаление надписи "выберите БД"
 
@@ -85,9 +73,8 @@ class MainWindowController
         var centerY = fxDrawPane.height / 2 //центральная координата Y во второй части splitPane
         var R = if (centerX < centerY) centerX*4/5 else centerY*4/5 //радиус окружности, по контуру которой будут размещены элементы
 
-        var rectHeight= if (centerX < centerY) fxDrawPane.width / tables.size else fxDrawPane.height / tables.size //высота прямоугольника
+        var rectHeight = (if (centerX < centerY) fxDrawPane.width else fxDrawPane.height) / tables.size //высота прямоугольника
         var rectWidth = rectHeight + rectHeight/4 //ширина прямоугольника
-        var rectArc = rectWidth / 4 //закругление краёв прямоугольника
 
         for(i in 0 until tables.size) //рассчёт координат прямоугольников
         {
@@ -96,12 +83,12 @@ class MainWindowController
 
             for(j in 0 until arrows.size) //рассчёт координат стрелок
             {
-                if(arrows[j].mainTable == tables[i].name)
+                if(arrows[j].mainTable == tables[i].tableName)
                 {
                     arrows[j].endX = tables[i].X + rectWidth/2
                     arrows[j].endY = tables[i].Y + rectHeight/2
                 }
-                if(arrows[j].dependTable == tables[i].name)
+                if(arrows[j].dependTable == tables[i].tableName)
                 {
                     arrows[j].startX = tables[i].X + rectWidth/2
                     arrows[j].startY = tables[i].Y + rectHeight/2
@@ -109,7 +96,7 @@ class MainWindowController
             }
         }
 
-        var fontSize = if(R<150) 12.0 else if(R<300) 16.0 else 18.0 //размер шрифта
+        //var fontSize = if(R<150) 12.0 else if(R<300) 16.0 else 18.0 //размер шрифта    ///настроить через файл
 
         for(i in 0 until arrows.size) //отрисовка стрелок
         {
@@ -119,33 +106,8 @@ class MainWindowController
 
         for (i in 0 until tables.size)
         {
-            var rect = javafx.scene.shape.Rectangle() //создание прямоугольника
-            rect.width = rectWidth
-            rect.height = rectHeight
-            rect.arcWidth = rectArc
-            rect.arcHeight = rectArc
-            rect.fill = clrTblNSelected
-
-            val text = Text(tables[i].name) //создание названия для прямоугольника
-            text.fill = clrTblNameNSelected
-            text.font = Font.font(fontSize)
-
-            val box = VBox(text, rect) //создание контейнера: текст - прямоугольник
-            box.alignment = Pos.TOP_LEFT
-            box.layoutX = tables[i].X
-            box.layoutY = tables[i].Y - fontSize
-
-            box.setOnMouseEntered { event -> //действия при наведении курсора
-                rect.fill = clrTblSelected
-                text.fill = clrTblNameSelected
-            }
-
-            box.setOnMouseExited { event -> //действия при отводе курсора
-                rect.fill = clrTblNSelected
-                text.fill = clrTblNameNSelected
-            }
-
-            fxDrawPane.children.add(box) //добавление контейнера на панель
+            tables[i].rectHeight = rectHeight
+            fxDrawPane.children.add(tables[i].box) //добавление контейнера на панель
         }
     }
 

@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <ScrollPane hbarPolicy="NEVER" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SettingsController">
    <content>
       <AnchorPane prefHeight="600.0" prefWidth="600.0">
@@ -65,8 +64,7 @@
             </RadioButton>
             <RadioButton mnemonicParsing="false" text="Фиксированный" toggleGroup="$fxRadio" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="450.0" />
             <ComboBox fx:id="fxFontSize" prefHeight="25.0" prefWidth="125.0" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="445.0" />
-            <AnchorPane fx:id="fxPane1" layoutX="386.0" layoutY="85.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="90.0" />
-            <AnchorPane fx:id="fxPane2" layoutX="380.0" layoutY="300.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="300.0" />
+            <AnchorPane fx:id="fxDrawPane" layoutX="386.0" layoutY="85.0" prefHeight="380.0" prefWidth="200.0" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="90.0" />
          </children>
       </AnchorPane>
    </content>

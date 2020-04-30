@@ -19,41 +19,22 @@ class SettingsController
     @FXML private lateinit var fxRadio: ToggleGroup //группа радио-кнопок для настройки шрифта
     @FXML private lateinit var fxFontSize: ComboBox<Int> //выпадающий список с размерами шрифта
 
-    @FXML private lateinit var fxPane1: AnchorPane //панель, на которую будет помещён пример невыбранной фигуры
-    @FXML private lateinit var fxPane2: AnchorPane //панель, на которую будет помещён пример выбранной фигуры
+    @FXML private lateinit var fxDrawPane: AnchorPane //панель, на которую будут помещёны примеры фигур
 
     fun initialize()
     {
-        var rectHeight= fxPane1.width / 2 //высота прямоугольника
-        var rectWidth = rectHeight + rectHeight/4 //ширина прямоугольника
-        var rectArc = rectWidth / 4 //закругление краёв прямоугольника
+        var example1: TableShape = TableShape("Table name")
+        example1.rectHeight = 108.0
+        example1.X = 5.0
+        example1.Y = 5.0
 
-        var rect = javafx.scene.shape.Rectangle() //создание прямоугольника
-        rect.width = rectWidth
-        rect.height = rectHeight
-        rect.arcWidth = rectArc
-        rect.arcHeight = rectArc
-        rect.fill = Color.ORANGE
+        var example2: TableShape = TableShape("Table name")
+        example2.rectHeight = 108.0
+        example2.X = 5.0
+        example2.Y = 150.0
+        example2.clrShapeNSelected = TableShape.DEFAULT_CLR_SHAPE_SELECTED
+        example2.clrTextNSelected = TableShape.DEFAULT_CLR_TEXT_SELECTED
 
-        val text = Text("Table name") //создание названия для прямоугольника
-        text.fill = fxClrShapeNSelected.value
-        text.font = Font.font(16.0)
-
-        val box = VBox(text, rect) //создание контейнера: текст - прямоугольник
-        box.alignment = Pos.TOP_LEFT
-        box.layoutX = 0.0
-        box.layoutY = 0.0
-
-//        box.setOnMouseEntered { event -> //действия при наведении курсора
-//            rect.fill = clrTblSelected
-//            text.fill = clrTblNameSelected
-//        }
-//
-//        box.setOnMouseExited { event -> //действия при отводе курсора
-//            rect.fill = clrTblNSelected
-//            text.fill = clrTblNameNSelected
-//        }
-
-        fxPane1.children.add(box) //добавление контейнера на панель
+        fxDrawPane.children.addAll(example1.box, example2.box) //добавление контейнера на панель
     }
 }
