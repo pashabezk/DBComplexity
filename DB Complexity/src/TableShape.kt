@@ -88,9 +88,12 @@ class TableShape (
 
     companion object
     {
-        val DEFAULT_CLR_SHAPE_NOT_SELECTED: Color = Color.ORANGE //цвет не выбранного прямоугольника
-        val DEFAULT_CLR_TEXT_NOT_SELECTED: Color = Color.DARKGREEN //цвет не выбранного текста
-        val DEFAULT_CLR_SHAPE_SELECTED: Color = Color.web("#560074") //цвет выбранного прямоугольника (a6000e)
-        val DEFAULT_CLR_TEXT_SELECTED: Color = Color.DARKVIOLET //цвет не выбранного текста
+        @JvmStatic var DEFAULT_CLR_SHAPE_NOT_SELECTED: Color = Color.ORANGE //цвет не выбранного прямоугольника
+        @JvmStatic var DEFAULT_CLR_TEXT_NOT_SELECTED: Color = Color.DARKGREEN //цвет не выбранного текста
+        @JvmStatic var DEFAULT_CLR_SHAPE_SELECTED: Color = Color.web("#560074") //цвет выбранного прямоугольника (a6000e)
+        @JvmStatic var DEFAULT_CLR_TEXT_SELECTED: Color = Color.DARKVIOLET //цвет не выбранного текста
+
+        @JvmStatic var FONT_SIZE_AUTO: Boolean = true //автоматический расчёт размера шрифта
+        @JvmStatic var DEFAULT_FONT_SIZE: Double = 16.0 //размер шрифта
     }
 }

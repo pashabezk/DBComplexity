@@ -123,7 +123,7 @@ class MainWindowController
         val stage = Stage()
         stage.scene = Scene(loader.getRoot())
         stage.title = GLOBAL.TITLE + " - весовые коэффициенты"
-        stage.isResizable = false
+        //stage.isResizable = false
         stage.icons.add(Image(GLOBAL.ICONURL))
         stage.show()
     }

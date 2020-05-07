@@ -1,13 +1,12 @@
+import javafx.collections.FXCollections.observableArrayList
+import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.geometry.Pos
+import javafx.scene.Node
 import javafx.scene.control.ColorPicker
 import javafx.scene.control.ComboBox
-import javafx.scene.control.ToggleGroup
+import javafx.scene.control.RadioButton
 import javafx.scene.layout.AnchorPane
-import javafx.scene.layout.VBox
-import javafx.scene.paint.Color
-import javafx.scene.text.Font
-import javafx.scene.text.Text
+import javafx.stage.Stage
 
 class SettingsController
 {
@@ -16,13 +15,36 @@ class SettingsController
     @FXML private lateinit var fxClrShapeSelected: ColorPicker //цвет выбранной формы
     @FXML private lateinit var fxClrTextSelected: ColorPicker //цвет текста выбранной фигуры
 
-    @FXML private lateinit var fxRadio: ToggleGroup //группа радио-кнопок для настройки шрифта
+    @FXML private lateinit var fxRadioAuto: RadioButton //группа радио-кнопок для настройки шрифта (автоматический)
+    @FXML private lateinit var fxRadioCustom: RadioButton //группа радио-кнопок для настройки шрифта (заданный пользователем)
+
     @FXML private lateinit var fxFontSize: ComboBox<Int> //выпадающий список с размерами шрифта
 
     @FXML private lateinit var fxDrawPane: AnchorPane //панель, на которую будут помещёны примеры фигур
 
     fun initialize()
     {
+        CONFIG.getProperties() //загрузка конфигурации интерфейса из файла
+
+        fxClrShapeNSelected.value = CONFIG.CLR_SHAPE_NOT_SELECTED
+        fxClrTextNSelected.value = CONFIG.CLR_TEXT_NOT_SELECTED
+        fxClrShapeSelected.value = CONFIG.CLR_SHAPE_SELECTED
+        fxClrTextSelected.value = CONFIG.CLR_TEXT_SELECTED
+
+        var list = ArrayList<Int>()
+        list.add(CONFIG.FONT_SIZE.toInt())
+        for (i in 10 until 27 step 2)
+            list.add(i)
+        fxFontSize.items = observableArrayList(list)
+        fxFontSize.selectionModel.selectFirst()
+
+        if (CONFIG.FONT_SIZE_AUTO)
+        {
+            fxRadioAuto.isSelected = true
+            fxFontSize.isDisable = true
+        }
+        else fxRadioCustom.isSelected = true
+
         var example1: TableShape = TableShape("Table name")
         example1.rectHeight = 108.0
         example1.X = 5.0
@@ -36,5 +58,17 @@ class SettingsController
         example2.clrTextNSelected = TableShape.DEFAULT_CLR_TEXT_SELECTED
 
         fxDrawPane.children.addAll(example1.box, example2.box) //добавление контейнера на панель
+    }
+
+    @FXML fun handleButtonCancel(event: ActionEvent)
+    {
+        CONFIG.getProperties() //загрузка предыдущей конфигурации интерфейса из файла
+        ((event.source as Node).scene.window as Stage).close() //закрыть текущее окно
+    }
+
+    @FXML fun handleButtonSave(event: ActionEvent)
+    {
+        CONFIG.saveProperties() //сохранение конфигурации
+        ((event.source as Node).scene.window as Stage).close() //закрыть текущее окно
     }
 }
