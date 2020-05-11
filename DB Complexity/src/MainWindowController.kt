@@ -2,23 +2,17 @@ import javafx.collections.FXCollections
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
-import javafx.geometry.Pos
 import javafx.scene.Scene
 import javafx.scene.control.Label
 import javafx.scene.control.ListView
 import javafx.scene.image.Image
 import javafx.scene.layout.AnchorPane
-import javafx.scene.layout.VBox
-import javafx.scene.paint.Color
 import javafx.scene.shape.Line
-import javafx.scene.text.Font
-import javafx.scene.text.Text
 import javafx.stage.Stage
 import java.io.IOException
 import java.lang.Math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-
 
 class MainWindowController
 {
@@ -27,7 +21,6 @@ class MainWindowController
     @FXML private lateinit var fxDrawPane: AnchorPane
     @FXML private lateinit var lbSelectDB: Label
 
-    //private var tablesOld: ArrayList<TableDrawObject> = ArrayList()
     private var tables: ArrayList<TableShape> = ArrayList()
     private var arrows: ArrayList<ArrowDrawObject> = ArrayList()
 
@@ -36,20 +29,25 @@ class MainWindowController
         fxList.items.addAll(FXCollections.observableArrayList(DBHandler.getDatabases())) //получение списка баз данных и помещение его в левую панель
 
         fxList.selectionModel.selectedItemProperty().addListener { changed, oldValue, newValue -> //прослушиватель на список БД, чтобы обновлять отрисовку таблиц
-            var al: ArrayList<String>? = newValue?.let { DBHandler.getTables(it) } //получение списка таблиц БД
             GLOBAL.DBSelected = newValue
-            tables.clear()
-            if (al != null)
-            {
-                arrows = newValue?.let { DBHandler.getDependTables(it) }!! //получение списка зависимых таблиц
-                for(i in 0 until al.size)
-                    tables.add(TableShape(al[i]))
-                draw()
-            }
+            createTableShapes(newValue)
         }
 
         fxDrawPane.widthProperty().addListener { observable, oldValue, newValue -> draw() } //прослушиватель на изменение ширины окна
         fxDrawPane.heightProperty().addListener { observable, oldValue, newValue -> draw() } // прослушиватель на изменение высоты окна
+    }
+
+    private fun createTableShapes(DBName: String)
+    {
+        var al: ArrayList<String>? = DBName?.let { DBHandler.getTables(it) } //получение списка таблиц БД
+        tables.clear()
+        if (al != null)
+        {
+            arrows = DBName?.let { DBHandler.getDependTables(it) }!! //получение списка зависимых таблиц
+            for(i in 0 until al.size)
+                tables.add(TableShape(al[i]))
+            draw()
+        }
     }
 
     public class ArrowDrawObject (mainTable: String, dependTable: String)
@@ -96,7 +94,7 @@ class MainWindowController
             }
         }
 
-        //var fontSize = if(R<150) 12.0 else if(R<300) 16.0 else 18.0 //размер шрифта    ///настроить через файл
+        var fontSize = if(R<150) 12.0 else if(R<300) 16.0 else 18.0 //размер шрифта
 
         for(i in 0 until arrows.size) //отрисовка стрелок
         {
@@ -107,6 +105,8 @@ class MainWindowController
         for (i in 0 until tables.size)
         {
             tables[i].rectHeight = rectHeight
+            if(TableShape.FONT_SIZE_AUTO) //если включена автоматическая настройка шрифта
+                tables[i].fontSize = fontSize
             fxDrawPane.children.add(tables[i].box) //добавление контейнера на панель
         }
     }
@@ -125,6 +125,7 @@ class MainWindowController
         stage.title = GLOBAL.TITLE + " - весовые коэффициенты"
         //stage.isResizable = false
         stage.icons.add(Image(GLOBAL.ICONURL))
+        stage.setOnHiding{ event -> createTableShapes(GLOBAL.DBSelected) } //при закрытии окна настроек перерисовать граф
         stage.show()
     }
 

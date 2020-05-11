@@ -19,9 +19,9 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+      <ButtonBar minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <buttons>
-            <Button mnemonicParsing="false" onAction="#handleButtonSave" text="Сохранить">
+            <Button mnemonicParsing="false" onAction="#handleButtonSave" prefHeight="25.0" text="Сохранить">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -42,12 +42,12 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label text="Цвет фигуры:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="80.0">
+                  <Label text="Цвет фигуры:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="120.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label text="Цвет подписи:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="120.0">
+                  <Label text="Цвет подписи:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="80.0">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -57,12 +57,12 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label text="Цвет фигуры:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="210.0">
+                  <Label text="Цвет фигуры:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="260.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label text="Цвет подписи:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="260.0">
+                  <Label text="Цвет подписи:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="210.0">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -72,22 +72,22 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <ColorPicker fx:id="fxClrShapeNSelected" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="70.0">
+                  <ColorPicker fx:id="fxClrShapeNSelected" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="110.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ColorPicker>
-                  <ColorPicker fx:id="fxClrTextNSelected" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="110.0">
+                  <ColorPicker fx:id="fxClrTextNSelected" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="70.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ColorPicker>
-                  <ColorPicker fx:id="fxClrShapeSelected" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="200.0">
+                  <ColorPicker fx:id="fxClrShapeSelected" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="250.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ColorPicker>
-                  <ColorPicker fx:id="fxClrTextSelected" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="250.0">
+                  <ColorPicker fx:id="fxClrTextSelected" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="200.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -104,6 +104,11 @@
                      </cursor>
                   </ComboBox>
                   <AnchorPane fx:id="fxDrawPane" layoutX="386.0" layoutY="85.0" prefHeight="380.0" prefWidth="160.0" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="40.0" />
+                  <Label alignment="CENTER" layoutX="-18.0" layoutY="432.0" onMouseClicked="#handleLableDefaultClicked" prefHeight="17.0" prefWidth="207.0" text="Установить значения по умолчанию" textFill="#4d4c4c" underline="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="430.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
                </children>
             </AnchorPane>
          </content>

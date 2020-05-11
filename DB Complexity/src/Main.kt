@@ -9,6 +9,8 @@ class Main : Application()
 {
     override fun start(primaryStage: Stage?)
     {
+        CONFIG.getProperties() //загрузка параметров конфигурации
+
         primaryStage?.scene = Scene(load<Parent?>(javaClass.getResource("MainWindow.fxml")))
         primaryStage?.title = GLOBAL.TITLE
         primaryStage?.icons?.add(Image(GLOBAL.ICONURL))

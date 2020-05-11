@@ -9,7 +9,7 @@ class TableShape (
         var tableName: String //название таблицы
     )
 {
-    var fontSize:Double = 16.0 //размер шрифта
+    var fontSize:Double = FONT_SIZE //размер шрифта
         set(value) {
             field = value
             text.font = Font.font(fontSize)
@@ -37,20 +37,20 @@ class TableShape (
     var text = Text(tableName) //текст с названием таблицы
     val box = VBox(text, rect) //контейнер: текст + прямоугольник
 
-    var clrShapeNSelected: Color = DEFAULT_CLR_SHAPE_NOT_SELECTED //цвет не выбранного прямоугольника
+    var clrShapeNSelected: Color = CLR_SHAPE_NOT_SELECTED //цвет не выбранного прямоугольника
         set(value) {
             field = value
             rect.fill = value
         }
 
-    var clrTextNSelected: Color = DEFAULT_CLR_TEXT_NOT_SELECTED //цвет не выбранного текста
+    var clrTextNSelected: Color = CLR_TEXT_NOT_SELECTED //цвет не выбранного текста
         set(value) {
             field = value
             text.fill = value
         }
 
-    var clrShapeSelected: Color = DEFAULT_CLR_SHAPE_SELECTED //цвет выбранного прямоугольника
-    var clrTextSelected: Color = DEFAULT_CLR_TEXT_SELECTED //цвет не выбранного текста
+    var clrShapeSelected: Color = CLR_SHAPE_SELECTED //цвет выбранного прямоугольника
+    var clrTextSelected: Color = CLR_TEXT_SELECTED //цвет не выбранного текста
 
     init
     {
@@ -88,12 +88,24 @@ class TableShape (
 
     companion object
     {
-        @JvmStatic var DEFAULT_CLR_SHAPE_NOT_SELECTED: Color = Color.ORANGE //цвет не выбранного прямоугольника
-        @JvmStatic var DEFAULT_CLR_TEXT_NOT_SELECTED: Color = Color.DARKGREEN //цвет не выбранного текста
-        @JvmStatic var DEFAULT_CLR_SHAPE_SELECTED: Color = Color.web("#560074") //цвет выбранного прямоугольника (a6000e)
-        @JvmStatic var DEFAULT_CLR_TEXT_SELECTED: Color = Color.DARKVIOLET //цвет не выбранного текста
+        @JvmStatic var CLR_SHAPE_NOT_SELECTED: Color = CONFIG.DEFAULT_CLR_SHAPE_NOT_SELECTED //цвет не выбранного прямоугольника
+        @JvmStatic var CLR_TEXT_NOT_SELECTED: Color = CONFIG.DEFAULT_CLR_TEXT_NOT_SELECTED //цвет не выбранного текста
+        @JvmStatic var CLR_SHAPE_SELECTED: Color = CONFIG.DEFAULT_CLR_SHAPE_SELECTED //цвет выбранного прямоугольника
+        @JvmStatic var CLR_TEXT_SELECTED: Color = CONFIG.DEFAULT_CLR_TEXT_SELECTED //цвет не выбранного текста
 
-        @JvmStatic var FONT_SIZE_AUTO: Boolean = true //автоматический расчёт размера шрифта
-        @JvmStatic var DEFAULT_FONT_SIZE: Double = 16.0 //размер шрифта
+        @JvmStatic var FONT_SIZE_AUTO: Boolean = CONFIG.DEFAULT_FONT_SIZE_AUTO //автоматический расчёт размера шрифта
+        @JvmStatic var FONT_SIZE: Double = CONFIG.DEFAULT_FONT_SIZE //размер шрифта
+
+        @JvmStatic
+        fun setPropertiesFromConfig()
+        {
+            CLR_SHAPE_NOT_SELECTED = CONFIG.CLR_SHAPE_NOT_SELECTED //цвет не выбранного прямоугольника
+            CLR_TEXT_NOT_SELECTED = CONFIG.CLR_TEXT_NOT_SELECTED //цвет не выбранного текста
+            CLR_SHAPE_SELECTED = CONFIG.CLR_SHAPE_SELECTED //цвет выбранного прямоугольника
+            CLR_TEXT_SELECTED = CONFIG.CLR_TEXT_SELECTED //цвет не выбранного текста
+
+            FONT_SIZE_AUTO = CONFIG.FONT_SIZE_AUTO
+            FONT_SIZE = CONFIG.FONT_SIZE
+        }
     }
 }
