@@ -11,7 +11,8 @@ class Main : Application()
     {
         CONFIG.getProperties() //загрузка параметров конфигурации
 
-        primaryStage?.scene = Scene(load<Parent?>(javaClass.getResource("MainWindow.fxml")))
+        primaryStage?.scene = Scene(load<Parent?>(javaClass.getResource("DBMSConnect.fxml")))
+        //primaryStage?.scene = Scene(load<Parent?>(javaClass.getResource("MainWindow.fxml")))
         primaryStage?.title = GLOBAL.TITLE
         primaryStage?.icons?.add(Image(GLOBAL.ICONURL))
         primaryStage?.show()

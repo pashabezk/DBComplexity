@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DBMSConnectController">
+   <children>
+      <Label alignment="CENTER" layoutX="139.0" layoutY="81.0" text="Подключение к СУБД" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="30.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="30.0" layoutY="80.0" text="URL сервера" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="80.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="30.0" layoutY="120.0" text="Порт" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="120.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="30.0" layoutY="160.0" text="Пользователь MySQL" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="160.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="30.0" layoutY="200.0" text="Пароль пользователя" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="200.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="fxURL" layoutX="220.0" layoutY="80.0" promptText="localhost" text="localhost" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="80.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="fxPort" layoutX="220.0" layoutY="120.0" promptText="3306" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="120.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="fxUser" layoutX="220.0" layoutY="160.0" text="user1" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="160.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <PasswordField fx:id="fxPassword" layoutX="220.0" layoutY="200.0" text="1234" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="200.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </PasswordField>
+      <Button layoutX="343.0" layoutY="211.0" mnemonicParsing="false" onAction="#handleButtonConnect" text="Подключиться" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="30.0" />
+      <Label fx:id="fxErrMsg" layoutX="30.0" layoutY="269.0" textFill="RED" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="150.0" />
+   </children>
+</AnchorPane>

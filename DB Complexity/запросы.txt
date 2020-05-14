@@ -26,6 +26,16 @@ group by table_name;
 select table_name, non_unique, index_name, column_name from statistics
 where TABLE_SCHEMA = 'sessia';
 
+#ограничения полей
+#количество полей, имеющих ограничение auto_increment
+select count(*) from columns where table_schema = "test" and extra like '%auto_increment%';
+#количество полей, имеющих ограничение not_null
+select count(*) from columns where table_schema = "test" and is_nullable="NO";
+#количество полей, имеющих default-описание
+select count(*) from columns where table_schema = "test" and column_default!=null;
+#количество полей, имеющих ограничение unique
+select count(*) from TABLE_CONSTRAINTS where table_schema="test" and constraint_type="UNIQUE";
+
 #для расчёта сложности таблицы:
 #получение количества атрибутов таблиц в БД
 select count(columns.column_name) as col from tables,columns where tables.table_name=columns.table_name and columns.table_schema='sessia' and tables.table_schema='sessia';

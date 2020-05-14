@@ -1,15 +1,10 @@
 import javafx.collections.FXCollections
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.fxml.FXMLLoader
-import javafx.scene.Scene
 import javafx.scene.control.Label
 import javafx.scene.control.ListView
-import javafx.scene.image.Image
 import javafx.scene.layout.AnchorPane
 import javafx.scene.shape.Line
-import javafx.stage.Stage
-import java.io.IOException
 import java.lang.Math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -29,8 +24,11 @@ class MainWindowController
         fxList.items.addAll(FXCollections.observableArrayList(DBHandler.getDatabases())) //получение списка баз данных и помещение его в левую панель
 
         fxList.selectionModel.selectedItemProperty().addListener { changed, oldValue, newValue -> //прослушиватель на список БД, чтобы обновлять отрисовку таблиц
-            GLOBAL.DBSelected = newValue
-            createTableShapes(newValue)
+            if (newValue != null)
+            {
+                GLOBAL.DBSelected = newValue
+                createTableShapes(newValue)
+            }
         }
 
         fxDrawPane.widthProperty().addListener { observable, oldValue, newValue -> draw() } //прослушиватель на изменение ширины окна
@@ -111,37 +109,20 @@ class MainWindowController
         }
     }
 
-    @FXML fun handleButtonSettings(event: ActionEvent)
+    @FXML fun handleButtonSettings(event: ActionEvent) //кнопка "настройки"
     {
-        val loader = FXMLLoader()
-//        loader.location = javaClass.getResource("WeightParameters.fxml")
-        loader.location = javaClass.getResource("Settings.fxml")
-        try {
-            loader.load<Any>()
-        } catch (ex: IOException) {ex.printStackTrace()}
-
-        val stage = Stage()
-        stage.scene = Scene(loader.getRoot())
-        stage.title = GLOBAL.TITLE + " - весовые коэффициенты"
-        //stage.isResizable = false
-        stage.icons.add(Image(GLOBAL.ICONURL))
-        stage.setOnHiding{ event -> createTableShapes(GLOBAL.DBSelected) } //при закрытии окна настроек перерисовать граф
-        stage.show()
+        GLOBAL.loadFXMLWindow("Settings.fxml", GLOBAL.TITLE + " - настройки", 540.0, 530.0) //запуск окна настроек
+            .setOnHiding{ event -> createTableShapes(GLOBAL.DBSelected) } //при закрытии окна настроек перерисовать граф
     }
 
-    @FXML fun handleButtonCalculateDBComplexity(event: ActionEvent) //открытие окна расчёта сложности БД
+    @FXML fun handleButtonCalculateDBComplexity(event: ActionEvent) //кнопка "рассчитать сложность БД"
     {
-        val loader = FXMLLoader()
-        loader.location = javaClass.getResource("DBComplexity.fxml")
-        try {
-            loader.load<Any>()
-        } catch (ex: IOException) {ex.printStackTrace()}
+        GLOBAL.loadFXMLWindow("DBComplexity.fxml", GLOBAL.TITLE + " - " + GLOBAL.DBSelected) //запуск окна расчёта сложности БД
+    }
 
-        val stage = Stage()
-        stage.scene = Scene(loader.getRoot())
-        stage.title = GLOBAL.TITLE + " - " + GLOBAL.DBSelected
-        stage.isResizable = false
-        stage.icons.add(Image(GLOBAL.ICONURL))
-        stage.show()
+    @FXML fun handleButtonReload(event: ActionEvent) //кнопка "обновить 🔃"
+    {
+        fxList.items.clear() //очистка списка БД
+        fxList.items.addAll(FXCollections.observableArrayList(DBHandler.getDatabases())) //получение списка баз данных и помещение его в левую панель
     }
 }

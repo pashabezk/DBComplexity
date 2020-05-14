@@ -39,6 +39,8 @@ class SettingsController
         {
             fxRadioAuto.isSelected = true //установка пункта "Автоматический"
             fxFontSize.isDisable = true //сделать combo box недействительным
+            example1.fontSize = CONFIG.DEFAULT_FONT_SIZE //установка размера шрифта по умолчанию
+            example2.fontSize = CONFIG.DEFAULT_FONT_SIZE //установка размера шрифта по умолчанию
         }
         else fxRadioCustom.isSelected = true //установка пункта "Фиксированный"
     }
@@ -94,17 +96,19 @@ class SettingsController
         }
 
         //установка прослушивателей на изменение параметров настройки шрифта
-        fxRadioAuto.onAction = EventHandler { //при выборе "автоматически"
+        fxRadioAuto.onAction = EventHandler { //при выборе "автоматический"
             CONFIG.FONT_SIZE_AUTO = true
             fxFontSize.isDisable = true //сделать combo box недействительным
 
+            //изменение размера шрифта на образцах
             example1.fontSize = CONFIG.DEFAULT_FONT_SIZE
             example2.fontSize = CONFIG.DEFAULT_FONT_SIZE
         }
-        fxRadioCustom.onAction = EventHandler { //при выборе пользовательской настройки
+        fxRadioCustom.onAction = EventHandler { //при выборе "фиксированный"
             CONFIG.FONT_SIZE_AUTO = false
             fxFontSize.isDisable = false //сделать combo box действительным
 
+            //изменение размера шрифта на образцах
             example1.fontSize = fxFontSize.value.toDouble()
             example2.fontSize = fxFontSize.value.toDouble()
         }
@@ -127,9 +131,14 @@ class SettingsController
         ((event.source as Node).scene.window as Stage).close() //закрыть текущее окно
     }
 
-    @FXML fun handleLableDefaultClicked(event: MouseEvent)
+    @FXML fun handleLableDefaultInterfaceClicked(event: MouseEvent) //установка параметров интерфейса в значения по умолчанию
     {
         CONFIG.setDefault() //установка значений по умолчанию
         setPropertiesFromConfig()
+    }
+
+    @FXML fun handleLableDefaultWeigthClicked(event: MouseEvent) //установка весовых коэффициентов в значения по умолчанию
+    {
+
     }
 }

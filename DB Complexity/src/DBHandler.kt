@@ -1,31 +1,31 @@
-import java.io.BufferedReader
-import java.io.FileReader
-import java.io.IOException
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
-import java.sql.Statement
 import java.util.*
 import kotlin.collections.ArrayList
-
 
 public class DBHandler
 {
     companion object
     {
-        private var DBConnection: Connection? = null
-        private val DBURL: String = "//192.168.1.17/information_schema"
+        @JvmStatic private var DBConnection: Connection? = null
+
+        @JvmStatic var DBMS_URL: String = ""
+        @JvmStatic var port: String = ""
+        @JvmStatic var user: String = ""
+        @JvmStatic var password: String = ""
 
         @Throws(SQLException::class)
         fun getDBConnection(): Connection? {
             if (DBConnection == null) //проверка не открыт ли уже доступ к БД
             {
                 val p = Properties() //создание параметров для подключения к БД
-                p.setProperty("user", "user1")
-                p.setProperty("password", "1234")
+                p.setProperty("user", user)
+                p.setProperty("password", password)
                 p.setProperty("useUnicode", "true")
                 p.setProperty("characterEncoding", "cp1251")
-                DBConnection = DriverManager.getConnection("jdbc:mysql:" + DBURL, p) //создание подключения к БД
+                DBConnection = DriverManager.getConnection(
+                    "jdbc:mysql://" + DBMS_URL + (if(port != "") ":$port" else "") + "/information_schema", p) //создание подключения к БД
             }
             return DBConnection
         }
