@@ -137,6 +137,11 @@ class SettingsController
         setPropertiesFromConfig()
     }
 
+    @FXML fun handleLableTablePairCompairClicked(event: MouseEvent) //вызов настройки весовых коэффициентов методом таблицы парных сравнений
+    {
+        GLOBAL.loadFXMLWindow("WeightParameters.fxml", "Настройка весовых коэффициентов")
+    }
+
     @FXML fun handleLableDefaultWeigthClicked(event: MouseEvent) //установка весовых коэффициентов в значения по умолчанию
     {
 

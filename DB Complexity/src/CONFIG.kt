@@ -25,7 +25,7 @@ class CONFIG
         @JvmStatic var FONT_SIZE_AUTO: Boolean = TableShape.FONT_SIZE_AUTO //автоматический расчёт размера шрифта
         @JvmStatic var FONT_SIZE: Double = TableShape.FONT_SIZE //размер шрифта
 
-        @JvmStatic private val properties = Properties()
+        @JvmStatic private val properties = Properties() //объект работы с сохранёнными параметрами
 
         @JvmStatic
         fun getProperties() //чтение конфигурации
@@ -33,7 +33,7 @@ class CONFIG
             val configFile = File(GLOBAL.INTERFACE_CONFIG_FILE_URL)
             if (configFile.exists())
             {
-                properties.load(FileReader(configFile))//загрузка параметров
+                properties.load(FileReader(configFile)) //загрузка параметров
 
                 //получение параметров
                 CLR_SHAPE_NOT_SELECTED = Color.web(properties.getProperty("CLR_SHAPE_NOT_SELECTED", TableShape.CLR_SHAPE_NOT_SELECTED.toString()))

@@ -60,16 +60,21 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="321.0" layoutY="141.0" text="M4 - Количество уникальных индексов" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="210.0">
+      <Label layoutX="321.0" layoutY="141.0" text="M4 - Количество индексов" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="210.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="327.0" layoutY="172.0" text="M5 - Количество неуникальных индексов" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="250.0">
+      <Label layoutX="327.0" layoutY="172.0" text="M5 - Количество ограничений полей" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="250.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <Button layoutX="518.0" layoutY="474.0" mnemonicParsing="false" onAction="#handleButtonCalculate" text="Рассчитать" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="30.0" />
+      <Label fx:id="fxErrMsg" layoutX="30.0" layoutY="484.0" textFill="RED" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="30.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

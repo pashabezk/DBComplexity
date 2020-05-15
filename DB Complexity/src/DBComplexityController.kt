@@ -1,10 +1,10 @@
+import Configs.WConfig
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.Node
 import javafx.scene.control.Label
 import javafx.stage.Stage
 import java.text.DecimalFormat
-
 
 class DBComplexityController
 {
@@ -34,8 +34,8 @@ class DBComplexityController
         DFormat.isGroupingUsed = false
 
         var complexity:Double  =  0.0
-        for (i in 0 until GLOBAL.NumMetrics)
-            complexity += metrics[i].toDouble() * GLOBAL.WMetrics[i]
+        for (i in 0 until WConfig.NumMetrics)
+            complexity += metrics[i].toDouble() * WConfig.WMetrics[i]
         fxDBC.text = "" + DFormat.format(complexity)
     }
 

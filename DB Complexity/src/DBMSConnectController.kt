@@ -1,3 +1,4 @@
+import Animations.Shake
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.Node
@@ -6,6 +7,7 @@ import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
 import javafx.stage.Stage
 import java.sql.SQLException
+
 
 class DBMSConnectController
 {
@@ -16,13 +18,12 @@ class DBMSConnectController
 
     @FXML private lateinit var fxErrMsg: Label //сообщение об ошибках
 
-    fun initialize()
-    {
-
-    }
+    fun initialize() {}
 
     @FXML fun handleButtonConnect(event: ActionEvent)
     {
+        val errMsgAnim = Shake(fxErrMsg) //создание объекта анимации
+
         if((fxURL.text == "") or (fxUser.text == "") or(fxPassword.text == ""))
             fxErrMsg.text = GLOBAL.ERR_FIELDS_ARE_EMPTY
         else
@@ -44,5 +45,6 @@ class DBMSConnectController
                 fxErrMsg.text = GLOBAL.ERR_NO_CONNECTION_MYSQL
             }
         }
+        errMsgAnim.playAnim()
     }
 }
