@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -70,7 +71,10 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="518.0" layoutY="474.0" mnemonicParsing="false" onAction="#handleButtonCalculate" text="Рассчитать" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="30.0" />
+      <Button layoutX="518.0" layoutY="474.0" mnemonicParsing="false" onAction="#handleButtonCalculate" text="Рассчитать" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="30.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Label fx:id="fxErrMsg" layoutX="30.0" layoutY="484.0" textFill="RED" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="30.0">
          <font>
             <Font size="14.0" />

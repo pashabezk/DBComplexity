@@ -1,3 +1,4 @@
+import Configs.WConfig
 import javafx.application.Application
 import javafx.fxml.FXMLLoader.load
 import javafx.scene.Parent
@@ -9,7 +10,9 @@ class Main : Application()
 {
     override fun start(primaryStage: Stage?)
     {
-        CONFIG.getProperties() //загрузка параметров конфигурации
+        //загрузка параметров конфигурации
+        CONFIG.getProperties()
+        //WConfig.getProperties()
 
         primaryStage?.scene = Scene(load<Parent?>(javaClass.getResource("DBMSConnect.fxml")))
         //primaryStage?.scene = Scene(load<Parent?>(javaClass.getResource("MainWindow.fxml")))

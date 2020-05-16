@@ -1,17 +1,21 @@
+import Configs.WConfig
 import javafx.collections.FXCollections.observableArrayList
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.scene.Node
-import javafx.scene.control.ColorPicker
-import javafx.scene.control.ComboBox
-import javafx.scene.control.RadioButton
+import javafx.scene.control.*
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.AnchorPane
 import javafx.stage.Stage
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SettingsController
 {
+    /*переменные, задействованные на вкладке с настройкой интерфейса*/
     @FXML private lateinit var fxClrShapeNSelected: ColorPicker //цвет невыбранной формы
     @FXML private lateinit var fxClrTextNSelected: ColorPicker //цвет текста невыбранной фигуры
     @FXML private lateinit var fxClrShapeSelected: ColorPicker //цвет выбранной формы
@@ -27,7 +31,26 @@ class SettingsController
     private var example1: TableShape = TableShape("Table name") //образец формы
     private var example2: TableShape = TableShape("Table name") //образец формы при наведении
 
-    private fun setPropertiesFromConfig()
+    /*переменные, задействованные на вкладке с настройкой весовых коэффициентов*/
+
+    //сохранённые весовые коэффициенты
+    @FXML private lateinit var fxW1: TextField
+    @FXML private lateinit var fxW2: TextField
+    @FXML private lateinit var fxW3: TextField
+    @FXML private lateinit var fxW4: TextField
+    @FXML private lateinit var fxW5: TextField
+
+    //параметры учёта индексов
+    @FXML private lateinit var fxIndU: CheckBox //уникальные индексы
+    @FXML private lateinit var fxIndNU: CheckBox //неуникальные индексы
+
+    //параметры учёта ограничений полей
+    @FXML private lateinit var fxPrAuto_inc: CheckBox //auto_increment
+    @FXML private lateinit var fxPrUnique: CheckBox //unique
+    @FXML private lateinit var fxPrNot_null: CheckBox //not_null
+    @FXML private lateinit var fxPrDefault: CheckBox //default
+
+    private fun setInterfacePropertiesFromConfig()
     {
         //установка цветов, полученных из файла конфигурации в color picker'ы
         fxClrShapeNSelected.value = CONFIG.CLR_SHAPE_NOT_SELECTED
@@ -45,11 +68,40 @@ class SettingsController
         else fxRadioCustom.isSelected = true //установка пункта "Фиксированный"
     }
 
+    private fun setWeightParametersFromConfig() //установка параметров весовых коэффициентов из файла конфигурации
+    {
+        //форматирование вывода переменной типа double
+        val dfs = DecimalFormatSymbols(Locale.getDefault())
+        dfs.setDecimalSeparator('.')
+        val DFormat = DecimalFormat("##0.000", dfs)
+        DFormat.minimumFractionDigits = 0
+        DFormat.isGroupingUsed = false
+
+        //установка весовых коэффициентов
+        fxW1.text = DFormat.format(WConfig.WMetrics[0]).toString()
+        fxW2.text = DFormat.format(WConfig.WMetrics[1]).toString()
+        fxW3.text = DFormat.format(WConfig.WMetrics[2]).toString()
+        fxW4.text = DFormat.format(WConfig.WMetrics[3]).toString()
+        fxW5.text = DFormat.format(WConfig.WMetrics[4]).toString()
+
+        //установка параметров учёта индексов
+        fxIndU.isSelected = WConfig.IndexProperties[0]
+        fxIndNU.isSelected = WConfig.IndexProperties[1]
+
+        //установка параметров учёта ограничений полей
+        fxPrAuto_inc.isSelected = WConfig.ColumnProperties[0]
+        fxPrUnique.isSelected = WConfig.ColumnProperties[1]
+        fxPrNot_null.isSelected = WConfig.ColumnProperties[2]
+        fxPrDefault.isSelected = WConfig.ColumnProperties[3]
+    }
+
     fun initialize()
     {
+        /*подготовка вкладки с настройкой интерфейса*/
+
         CONFIG.getProperties() //загрузка конфигурации интерфейса из файла
 
-        setPropertiesFromConfig()
+        setInterfacePropertiesFromConfig()
 
         //установка параметров настройки шрифта из файла конфигурации
         var list = ArrayList<Int>()
@@ -117,6 +169,11 @@ class SettingsController
             example1.fontSize = newValue.toDouble()
             example2.fontSize = newValue.toDouble()
         }
+
+
+        /*подготовка вкладки с настройкой весовых коэффициентов*/
+        WConfig.getProperties() //загрузка текущей конфигурации весовых коэффициентов из файла
+        setWeightParametersFromConfig() //установка весовых коэффициентов
     }
 
     @FXML fun handleButtonCancel(event: ActionEvent)
@@ -127,23 +184,40 @@ class SettingsController
 
     @FXML fun handleButtonSave(event: ActionEvent)
     {
-        CONFIG.saveProperties() //сохранение конфигурации
+        CONFIG.saveProperties() //сохранение конфигурации интерфейса
+
+        //сохранение результатов настройки весовых коэффициентов
+        WConfig.WMetrics[0] = fxW1.text.toDouble()
+        WConfig.WMetrics[1] = fxW2.text.toDouble()
+        WConfig.WMetrics[2] = fxW3.text.toDouble()
+        WConfig.WMetrics[3] = fxW4.text.toDouble()
+        WConfig.WMetrics[4] = fxW5.text.toDouble()
+        WConfig.IndexProperties[0] = fxIndU.isSelected
+        WConfig.IndexProperties[1] = fxIndNU.isSelected
+        WConfig.ColumnProperties[0] = fxPrAuto_inc.isSelected
+        WConfig.ColumnProperties[1] = fxPrUnique.isSelected
+        WConfig.ColumnProperties[2] = fxPrNot_null.isSelected
+        WConfig.ColumnProperties[3] = fxPrDefault.isSelected
+        WConfig.saveProperties()
+
         ((event.source as Node).scene.window as Stage).close() //закрыть текущее окно
     }
 
     @FXML fun handleLableDefaultInterfaceClicked(event: MouseEvent) //установка параметров интерфейса в значения по умолчанию
     {
         CONFIG.setDefault() //установка значений по умолчанию
-        setPropertiesFromConfig()
+        setInterfacePropertiesFromConfig()
     }
 
     @FXML fun handleLableTablePairCompairClicked(event: MouseEvent) //вызов настройки весовых коэффициентов методом таблицы парных сравнений
     {
         GLOBAL.loadFXMLWindow("WeightParameters.fxml", "Настройка весовых коэффициентов")
+            .setOnHiding{ event -> setWeightParametersFromConfig() } //установка весовых коэффициентов по закрытию окна
     }
 
     @FXML fun handleLableDefaultWeigthClicked(event: MouseEvent) //установка весовых коэффициентов в значения по умолчанию
     {
-
+        WConfig.setDefaultProperties() //установка весовых коэффициентов в значения по умолчанию
+        setWeightParametersFromConfig() //установка весовых коэффициентов
     }
 }

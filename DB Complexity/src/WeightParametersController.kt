@@ -26,6 +26,8 @@ class WeightParametersController
 
     fun initialize()
     {
+        WConfig.getProperties() //загрузка текущей конфигурации из файла
+
         for (i in 0 until N) //главная диагональ матрицы должна быть заполнена единицами и не иметь возможности редактирования
         {
             weight[i][i].text = "1.0"
@@ -37,6 +39,9 @@ class WeightParametersController
             for (i in 0 until N)
             {
                 weight[i][j].alignment = Pos.CENTER //установка выравнивания по середине
+
+                if(WConfig.WElements[i][j] != -1.0) //если есть сохранённые значения, то вписать их
+                    weight[i][j].text = WConfig.WElements[i][j].toString()
 
                 weight[i][j].textProperty().addListener{observable, oldValue, newValue -> //добавление прослушивателя, который будет заполнять симметричный элемент относительно главной диагонали
                     try {
@@ -103,6 +108,11 @@ class WeightParametersController
                 DFormat.maximumFractionDigits = 3
                 DFormat.minimumFractionDigits = 0
                 DFormat.isGroupingUsed = false
+
+                for (i in 0 until N)
+                    for (j in 0 until N)
+                        WConfig.WElements[i][j] = weightNum[i][j] //сохранение заполнения таблицы парных коэффициентов
+                WConfig.saveProperties() //сохранение конфигурации весовых коэффициентов
 
                 val alert = Alert(AlertType.INFORMATION)
                 alert.title = GLOBAL.TITLE
