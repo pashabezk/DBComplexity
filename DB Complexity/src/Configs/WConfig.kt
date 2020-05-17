@@ -37,7 +37,7 @@ class WConfig
                     IndexProperties[i] = properties.getProperty("I$i", "true").toBoolean()
 
                 for (i in 0..3) //получение параметров учёта ограничений полей
-                    ColumnProperties[i] = properties.getProperty("С$i", "true").toBoolean()
+                    ColumnProperties[i] = properties.getProperty("C$i", "true").toBoolean()
             }
             else
                 for (j in 0 until NumMetrics)
@@ -59,7 +59,7 @@ class WConfig
                 properties.setProperty("I$i", IndexProperties[i].toString())
 
             for (i in 0..3) //сохранение параметров учёта ограничений полей
-                properties.setProperty("С$i", ColumnProperties[i].toString())
+                properties.setProperty("C$i", ColumnProperties[i].toString())
 
             properties.store(FileOutputStream(GLOBAL.WEIGHT_PARAM_CONFIG_FILE_URL), null)
         }

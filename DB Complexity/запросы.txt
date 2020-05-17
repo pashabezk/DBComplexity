@@ -49,9 +49,13 @@ select count(non_unique) as ind_u from statistics where table_schema='sessia' an
 select count(non_unique) as ind_nu from statistics where table_schema='sessia' and non_unique=1;
 
 #одним запросом:
-select col,pk,fk,ind_u,ind_nu from
-(select count(columns.column_name) as col from tables,columns where tables.table_name=columns.table_name and columns.table_schema='sessia' and tables.table_schema='sessia')t1,
-(select count(table_name) as pk from (SELECT table_name FROM  key_column_usage where constraint_schema='sessia' and constraint_name='PRIMARY')a)t2,
-(select count(constraint_type) as fk from table_constraints where constraint_type='FOREIGN KEY' and table_schema='sessia')t3,
-(select count(non_unique) as ind_u from statistics where table_schema='sessia' and non_unique=0)t4,
-(select count(non_unique) as ind_nu from statistics where table_schema='sessia' and non_unique=1)t5;
+select col,pk,fk,ind_u,ind_nu,au_i,uniq,nn,def from
+(select count(*) as col from tables,columns where tables.table_name=columns.table_name and columns.table_schema='sessia' and tables.table_schema='sessia')t1,
+(select count(*) as pk from (select table_name from key_column_usage where constraint_schema='sessia' and constraint_name='PRIMARY')a)t2,
+(select count(*) as fk from table_constraints where constraint_type='FOREIGN KEY' and table_schema='sessia')t3,
+(select count(*) as ind_u from statistics where table_schema='sessia' and non_unique=0)t4,
+(select count(*) as ind_nu from statistics where table_schema='sessia' and non_unique=1)t5,
+(select count(*) as au_i from columns where table_schema='sessia' and extra like '%auto_increment%')t6,
+(select count(*) as uniq from table_constraints where table_schema='sessia' and constraint_type='UNIQUE')t7,
+(select count(*) as nn from columns where table_schema='sessia' and is_nullable='NO')t8,
+(select count(*) as def from columns where table_schema='sessia' and column_default!=null)t9;

@@ -117,7 +117,7 @@ class MainWindowController
 
     @FXML fun handleButtonCalculateDBComplexity(event: ActionEvent) //кнопка "рассчитать сложность БД"
     {
-        GLOBAL.loadFXMLWindow("DBComplexity.fxml", GLOBAL.TITLE + " - " + GLOBAL.DBSelected) //запуск окна расчёта сложности БД
+        GLOBAL.loadFXMLWindow("DBComplexity.fxml", GLOBAL.TITLE + " - " + GLOBAL.DBSelected, 510.0, 400.0) //запуск окна расчёта сложности БД
     }
 
     @FXML fun handleButtonReload(event: ActionEvent) //кнопка "обновить 🔃"

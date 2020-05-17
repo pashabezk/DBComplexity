@@ -28,10 +28,15 @@ class SettingsController
 
     @FXML private lateinit var fxDrawPane: AnchorPane //панель, на которую будут помещёны примеры фигур
 
+    @FXML private lateinit var fxDefaulInterface: Label //лейбл "Установить значения по умолчанию"
+
     private var example1: TableShape = TableShape("Table name") //образец формы
     private var example2: TableShape = TableShape("Table name") //образец формы при наведении
 
     /*переменные, задействованные на вкладке с настройкой весовых коэффициентов*/
+
+    @FXML private lateinit var fxTblPairCompares: Label //лейбл "Настройка с помощью таблицы парных сравнений"
+    @FXML private lateinit var fxSetDefaultWeigth: Label //лейбл "Установить значения по умолчанию"
 
     //сохранённые весовые коэффициенты
     @FXML private lateinit var fxW1: TextField
@@ -170,10 +175,50 @@ class SettingsController
             example2.fontSize = newValue.toDouble()
         }
 
+        //добавление прослушивателей на лейбл "установить значения по умолчанию"
+        fxDefaulInterface.onMouseEntered = EventHandler<MouseEvent?> { //увеличение при наведении
+            fxDefaulInterface.scaleX = 1.3
+            fxDefaulInterface.scaleY = 1.3
+        }
+        fxDefaulInterface.onMouseExited = EventHandler<MouseEvent?> { //возвращение в исходный формат
+            fxDefaulInterface.scaleX = 1.0
+            fxDefaulInterface.scaleY = 1.0
+        }
+        fxDefaulInterface.onMouseClicked = EventHandler<MouseEvent?> { //установка параметров интерфейса в значения по умолчанию
+            CONFIG.setDefault() //установка значений по умолчанию
+            setInterfacePropertiesFromConfig()
+        }
+
 
         /*подготовка вкладки с настройкой весовых коэффициентов*/
         WConfig.getProperties() //загрузка текущей конфигурации весовых коэффициентов из файла
         setWeightParametersFromConfig() //установка весовых коэффициентов
+
+        //добавление прослушивателей на лейблы
+        fxTblPairCompares.onMouseEntered = EventHandler<MouseEvent?> { //увеличение при наведении
+            fxTblPairCompares.scaleX = 1.3
+            fxTblPairCompares.scaleY = 1.3
+        }
+        fxTblPairCompares.onMouseExited = EventHandler<MouseEvent?> { //возвращение в исходный формат
+            fxTblPairCompares.scaleX = 1.0
+            fxTblPairCompares.scaleY = 1.0
+        }
+        fxTblPairCompares.onMouseClicked = EventHandler<MouseEvent?> { //вызов настройки весовых коэффициентов методом таблицы парных сравнений
+            GLOBAL.loadFXMLWindow("WeightParameters.fxml", "Настройка весовых коэффициентов")
+                .setOnHiding{ event -> setWeightParametersFromConfig() } //установка весовых коэффициентов по закрытию окна
+        }
+        fxSetDefaultWeigth.onMouseEntered = EventHandler<MouseEvent?> { //увеличение при наведении
+            fxSetDefaultWeigth.scaleX = 1.3
+            fxSetDefaultWeigth.scaleY = 1.3
+        }
+        fxSetDefaultWeigth.onMouseExited = EventHandler<MouseEvent?> { //возвращение в исходный формат
+            fxSetDefaultWeigth.scaleX = 1.0
+            fxSetDefaultWeigth.scaleY = 1.0
+        }
+        fxSetDefaultWeigth.onMouseClicked = EventHandler<MouseEvent?> { //установка весовых коэффициентов в значения по умолчанию
+            WConfig.setDefaultProperties() //установка весовых коэффициентов в значения по умолчанию
+            setWeightParametersFromConfig() //установка весовых коэффициентов
+        }
     }
 
     @FXML fun handleButtonCancel(event: ActionEvent)
@@ -201,23 +246,5 @@ class SettingsController
         WConfig.saveProperties()
 
         ((event.source as Node).scene.window as Stage).close() //закрыть текущее окно
-    }
-
-    @FXML fun handleLableDefaultInterfaceClicked(event: MouseEvent) //установка параметров интерфейса в значения по умолчанию
-    {
-        CONFIG.setDefault() //установка значений по умолчанию
-        setInterfacePropertiesFromConfig()
-    }
-
-    @FXML fun handleLableTablePairCompairClicked(event: MouseEvent) //вызов настройки весовых коэффициентов методом таблицы парных сравнений
-    {
-        GLOBAL.loadFXMLWindow("WeightParameters.fxml", "Настройка весовых коэффициентов")
-            .setOnHiding{ event -> setWeightParametersFromConfig() } //установка весовых коэффициентов по закрытию окна
-    }
-
-    @FXML fun handleLableDefaultWeigthClicked(event: MouseEvent) //установка весовых коэффициентов в значения по умолчанию
-    {
-        WConfig.setDefaultProperties() //установка весовых коэффициентов в значения по умолчанию
-        setWeightParametersFromConfig() //установка весовых коэффициентов
     }
 }

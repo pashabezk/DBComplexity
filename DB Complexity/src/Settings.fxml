@@ -99,7 +99,7 @@
                                  </cursor>
                               </ComboBox>
                               <AnchorPane fx:id="fxDrawPane" layoutX="386.0" layoutY="85.0" prefHeight="380.0" prefWidth="160.0" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="30.0" />
-                              <Label alignment="CENTER" layoutX="-18.0" layoutY="432.0" onMouseClicked="#handleLableDefaultInterfaceClicked" prefHeight="17.0" prefWidth="207.0" text="Установить значения по умолчанию" textFill="#4d4c4c" underline="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="430.0">
+                              <Label fx:id="fxDefaulInterface" alignment="CENTER" layoutX="-18.0" layoutY="432.0" prefHeight="17.0" prefWidth="207.0" text="Установить значения по умолчанию" underline="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="430.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -176,15 +176,12 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </CheckBox>
-                              <Label layoutX="340.0" layoutY="341.0" onMouseClicked="#handleLableTablePairCompairClicked" text="Настройка с помощью таблицы парных сравнений" underline="true" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="390.0">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
+                              <Label fx:id="fxTblPairCompares" alignment="CENTER" layoutX="340.0" layoutY="341.0" text="Настройка с помощью таблицы парных сравнений" underline="true" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="405.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Label>
-                              <Label alignment="CENTER" layoutX="40.0" layoutY="308.0" onMouseClicked="#handleLableDefaultWeigthClicked" prefHeight="17.0" prefWidth="480.0" text="Установить значения по умолчанию" underline="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="430.0">
+                              <Label fx:id="fxSetDefaultWeigth" alignment="CENTER" layoutX="40.0" layoutY="308.0" prefHeight="17.0" prefWidth="480.0" text="Установить значения по умолчанию" underline="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="430.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>

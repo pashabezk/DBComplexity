@@ -88,19 +88,27 @@ public class DBHandler
             var metrics: IntArray = intArrayOf(-1)
             try {
                 val result = getDBConnection()!!.createStatement()
-                    .executeQuery("select col,pk,fk,ind_u,ind_nu from" +
-                            "(select count(columns.column_name) as col from tables,columns where tables.table_name=columns.table_name and columns.table_schema='$database' and tables.table_schema='$database')t1," +
-                            "(select count(table_name) as pk from (SELECT table_name FROM  key_column_usage where constraint_schema='$database' and constraint_name='PRIMARY')a)t2," +
-                            "(select count(constraint_type) as fk from table_constraints where constraint_type='FOREIGN KEY' and table_schema='$database')t3," +
-                            "(select count(non_unique) as ind_u from statistics where table_schema='$database' and non_unique=0)t4," +
-                            "(select count(non_unique) as ind_nu from statistics where table_schema='$database' and non_unique=1)t5;")
+                    .executeQuery("select col,pk,fk,ind_u,ind_nu,au_i,uniq,nn,def from\n" +
+                            "(select count(*) as col from tables,columns where tables.table_name=columns.table_name and columns.table_schema='$database' and tables.table_schema='$database')t1,\n" +
+                            "(select count(*) as pk from (select table_name from key_column_usage where constraint_schema='$database' and constraint_name='PRIMARY')a)t2,\n" +
+                            "(select count(*) as fk from table_constraints where constraint_type='FOREIGN KEY' and table_schema='$database')t3,\n" +
+                            "(select count(*) as ind_u from statistics where table_schema='$database' and non_unique=0)t4,\n" +
+                            "(select count(*) as ind_nu from statistics where table_schema='$database' and non_unique=1)t5,\n" +
+                            "(select count(*) as au_i from columns where table_schema='$database' and extra like '%auto_increment%')t6,\n" +
+                            "(select count(*) as uniq from table_constraints where table_schema='$database' and constraint_type='UNIQUE')t7,\n" +
+                            "(select count(*) as nn from columns where table_schema='$database' and is_nullable='NO')t8,\n" +
+                            "(select count(*) as def from columns where table_schema='$database' and column_default!=null)t9;")
                 if (result.next())
                     metrics = intArrayOf(
                         result.getInt("col"), //количество атрибутов таблиц БД
                         result.getInt("pk"), //количество атрибутов в составе первичных ключенй в БД
                         result.getInt("fk"), //количество атрибутов в составе внешних ключей в БД
                         result.getInt("ind_u"), //количество уникальных индексов в БД
-                        result.getInt("ind_nu") //количество неуникальных индексов в БД
+                        result.getInt("ind_nu"), //количество неуникальных индексов в БД
+                        result.getInt("au_i"), //количество ограничений auto_increment
+                        result.getInt("uniq"), //количество ограничений unique
+                        result.getInt("nn"), //количество ограничений not_null
+                        result.getInt("def") //количество ограничений auto_increment
                     )
                 closeDB()
             } catch (e: SQLException) {e.printStackTrace()}

@@ -12,7 +12,7 @@ class Main : Application()
     {
         //загрузка параметров конфигурации
         CONFIG.getProperties()
-        //WConfig.getProperties()
+        WConfig.getProperties()
 
         primaryStage?.scene = Scene(load<Parent?>(javaClass.getResource("DBMSConnect.fxml")))
         //primaryStage?.scene = Scene(load<Parent?>(javaClass.getResource("MainWindow.fxml")))
