@@ -13,8 +13,6 @@ class GLOBAL
         @JvmStatic public val INTERFACE_CONFIG_FILE_URL: String = "files/Interface.config" //адрес файла конфигурации интерфейса приложения
         @JvmStatic public val WEIGHT_PARAM_CONFIG_FILE_URL: String = "files/WeightParameters.config" //адрес файла конфигурации весовых коэффициентов
 
-        @JvmStatic public var DBSelected: String = "" //выбранная БД
-
         //описание ошибок
         @JvmStatic public val ERR_FIELDS_ARE_EMPTY: String = "Не все поля заполнены"
         @JvmStatic public val ERR_NO_CONNECTION_MYSQL: String = "Не удалось подключиться к MySQL"

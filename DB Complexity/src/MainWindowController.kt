@@ -1,16 +1,27 @@
 import javafx.collections.FXCollections
 import javafx.event.ActionEvent
+import javafx.event.EventHandler
 import javafx.fxml.FXML
+import javafx.fxml.FXMLLoader
+import javafx.scene.Scene
 import javafx.scene.control.Label
 import javafx.scene.control.ListView
+import javafx.scene.image.Image
 import javafx.scene.layout.AnchorPane
 import javafx.scene.shape.Line
+import javafx.stage.Stage
 import java.lang.Math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
 class MainWindowController
 {
+    companion object
+    {
+        @JvmStatic public var DBSelected: String = "" //выбранная БД
+        @JvmStatic public var TblSelected: String = "" //выбранная таблица
+    }
+
     @FXML private lateinit var fxList: ListView<String>
     @FXML private lateinit var fxSecondPane: AnchorPane
     @FXML private lateinit var fxDrawPane: AnchorPane
@@ -26,7 +37,7 @@ class MainWindowController
         fxList.selectionModel.selectedItemProperty().addListener { changed, oldValue, newValue -> //прослушиватель на список БД, чтобы обновлять отрисовку таблиц
             if (newValue != null)
             {
-                GLOBAL.DBSelected = newValue
+                DBSelected = newValue
                 createTableShapes(newValue)
             }
         }
@@ -58,6 +69,22 @@ class MainWindowController
         var endY: Double = 0.0
     }
 
+    private fun createTblComplexityWindow() //запуск окна расчёта сложности таблицы
+    {
+        val stage = Stage()
+        val loader = FXMLLoader(javaClass.getResource("DBComplexity.fxml"))
+        stage.scene = Scene(loader.load())
+        stage.minWidth = 510.0
+        stage.minHeight = 400.0
+
+        var controller: DBComplexityController = loader.getController() //получение экземпляра контроллера
+        controller.type = 1 //установка типа сложности: расчёт сложности таблицы
+
+        stage.title = GLOBAL.TITLE //установка заголовка окна
+        stage.icons.add(Image(GLOBAL.ICONURL)) //установка иконки окна
+        stage.show()
+    }
+
     private fun draw()
     {
         if (tables.isNotEmpty()) //если таблицы не получены, то очищать не надо (необходимо, чтобы при первом заходе был виден лейбл "выберите БД")
@@ -72,8 +99,9 @@ class MainWindowController
         var rectHeight = (if (centerX < centerY) fxDrawPane.width else fxDrawPane.height) / tables.size //высота прямоугольника
         var rectWidth = rectHeight + rectHeight/4 //ширина прямоугольника
 
-        for(i in 0 until tables.size) //рассчёт координат прямоугольников
+        for(i in 0 until tables.size)
         {
+            //рассчёт координат прямоугольников
             tables[i].X = centerX + R * cos(2 * PI * i / tables.size) - rectWidth/2
             tables[i].Y = centerY + R * sin(2 * PI * i / tables.size) - rectHeight/2
 
@@ -89,6 +117,12 @@ class MainWindowController
                     arrows[j].startX = tables[i].X + rectWidth/2
                     arrows[j].startY = tables[i].Y + rectHeight/2
                 }
+            }
+
+            //добавление прослушивателя на нажатие контейнера
+            tables[i].box.onMouseClicked = EventHandler { event ->
+                TblSelected = tables[i].tableName
+                createTblComplexityWindow()
             }
         }
 
@@ -112,12 +146,12 @@ class MainWindowController
     @FXML fun handleButtonSettings(event: ActionEvent) //кнопка "настройки"
     {
         GLOBAL.loadFXMLWindow("Settings.fxml", GLOBAL.TITLE + " - настройки", 540.0, 530.0) //запуск окна настроек
-            .setOnHiding{ event -> createTableShapes(GLOBAL.DBSelected) } //при закрытии окна настроек перерисовать граф
+            .setOnHiding{ event -> createTableShapes(DBSelected) } //при закрытии окна настроек перерисовать граф
     }
 
     @FXML fun handleButtonCalculateDBComplexity(event: ActionEvent) //кнопка "рассчитать сложность БД"
     {
-        GLOBAL.loadFXMLWindow("DBComplexity.fxml", GLOBAL.TITLE + " - " + GLOBAL.DBSelected, 510.0, 400.0) //запуск окна расчёта сложности БД
+        GLOBAL.loadFXMLWindow("DBComplexity.fxml", GLOBAL.TITLE + " - " + DBSelected, 510.0, 400.0) //запуск окна расчёта сложности БД
     }
 
     @FXML fun handleButtonReload(event: ActionEvent) //кнопка "обновить 🔃"

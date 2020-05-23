@@ -99,7 +99,7 @@
                                  </cursor>
                               </ComboBox>
                               <AnchorPane fx:id="fxDrawPane" layoutX="386.0" layoutY="85.0" prefHeight="380.0" prefWidth="160.0" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="30.0" />
-                              <Label fx:id="fxDefaulInterface" alignment="CENTER" layoutX="-18.0" layoutY="432.0" prefHeight="17.0" prefWidth="207.0" text="Установить значения по умолчанию" textFill="#4d4c4c" underline="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="430.0">
+                              <Label fx:id="fxDefaulInterface" alignment="CENTER" layoutX="-18.0" layoutY="432.0" prefHeight="17.0" prefWidth="207.0" text="Установить значения по умолчанию" underline="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="430.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>

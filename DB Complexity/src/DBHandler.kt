@@ -114,5 +114,38 @@ public class DBHandler
             } catch (e: SQLException) {e.printStackTrace()}
             return metrics
         }
+
+        @JvmStatic
+        fun getTableMetrics(database: String, table: String): IntArray //получение списка метрик таблицы БД
+        {
+            var metrics: IntArray = intArrayOf(-1)
+            try {
+                val result = getDBConnection()!!.createStatement()
+                    .executeQuery("select col,pk,fk,ind_u,ind_nu,au_i,uniq,nn,def from\n" +
+                            "(select count(*) as col from tables,columns where tables.table_name=columns.table_name and columns.table_schema='$database' and tables.table_schema='$database' and tables.table_name='$table')t1,\n" +
+                            "(select count(*) as pk from key_column_usage where constraint_schema='$database' and constraint_name='PRIMARY' and table_name='$table')t2,\n" +
+                            "(select count(*) as fk from table_constraints where constraint_type='FOREIGN KEY' and table_schema='$database' and table_name='$table')t3,\n" +
+                            "(select count(*) as ind_u from statistics where table_schema='$database' and non_unique=0 and table_name='$table')t4,\n" +
+                            "(select count(*) as ind_nu from statistics where table_schema='$database' and non_unique=1 and table_name='$table')t5,\n" +
+                            "(select count(*) as au_i from columns where table_schema='$database' and table_name='$table' and extra like '%auto_increment%')t6,\n" +
+                            "(select count(*) as uniq from table_constraints where table_schema='$database' and table_name='$table' and constraint_type='UNIQUE')t7,\n" +
+                            "(select count(*) as nn from columns where table_schema='$database' and table_name='$table' and is_nullable='NO')t8,\n" +
+                            "(select count(*) as def from columns where table_schema='$database' and table_name='$table' and column_default!=null)t9;")
+                if (result.next())
+                    metrics = intArrayOf(
+                        result.getInt("col"), //количество атрибутов таблицы
+                        result.getInt("pk"), //количество атрибутов в составе первичных ключенй
+                        result.getInt("fk"), //количество атрибутов в составе внешних ключей
+                        result.getInt("ind_u"), //количество уникальных индексов
+                        result.getInt("ind_nu"), //количество неуникальных индексов
+                        result.getInt("au_i"), //количество ограничений auto_increment
+                        result.getInt("uniq"), //количество ограничений unique
+                        result.getInt("nn"), //количество ограничений not_null
+                        result.getInt("def") //количество ограничений auto_increment
+                    )
+                closeDB()
+            } catch (e: SQLException) {e.printStackTrace()}
+            return metrics
+        }
     }
 }
