@@ -35,7 +35,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="fxURL" layoutX="220.0" layoutY="80.0" promptText="localhost" text="localhost" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="80.0">
+      <TextField fx:id="fxURL" layoutX="220.0" layoutY="80.0" promptText="localhost" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="80.0">
          <font>
             <Font size="14.0" />
          </font>

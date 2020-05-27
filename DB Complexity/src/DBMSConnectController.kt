@@ -1,4 +1,5 @@
 import Animations.Shake
+import Configs.CConfig
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.Node
@@ -7,7 +8,6 @@ import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
 import javafx.stage.Stage
 import java.sql.SQLException
-
 
 class DBMSConnectController
 {
@@ -18,7 +18,14 @@ class DBMSConnectController
 
     @FXML private lateinit var fxErrMsg: Label //сообщение об ошибках
 
-    fun initialize() {}
+    private var conConfig: CConfig = CConfig() //конфигурация подключения
+
+    fun initialize()
+    {
+        //заполнение полей согласно файлу конфигурации
+        fxURL.text = conConfig.URL
+        fxPort.text = conConfig.port
+    }
 
     @FXML fun handleButtonConnect(event: ActionEvent)
     {
@@ -39,6 +46,11 @@ class DBMSConnectController
 
                 GLOBAL.loadFXMLWindow("MainWindow.fxml", GLOBAL.TITLE, 600.0, 400.0) //запуск главного окна приложения
                 ((event.source as Node).scene.window as Stage).close() //закрыть текущее окно
+
+                //сохранение параметров конфигурации входа
+                conConfig.URL = fxURL.text
+                conConfig.port = fxPort.text
+                conConfig.saveProperties()
             }
             catch (e: SQLException) {
                 e.printStackTrace()

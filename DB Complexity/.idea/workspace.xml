@@ -31,6 +31,11 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="Configs" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -69,30 +74,38 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="474" y="81" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1589217041051" />
+    <state x="413" y="140" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1590551135532">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="413" y="140" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1590551135532" />
     <state x="412" y="149" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1583612789150">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="412" y="149" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1583612789150" />
+    <state x="462" y="17" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog" timestamp="1590551139253">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="462" y="17" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1590551139253" />
     <state x="389" y="106" key="FileChooserDialogImpl" timestamp="1583783428530">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="389" y="106" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1583783428530" />
-    <state width="1323" height="58" key="GridCell.Tab.0.bottom" timestamp="1590213972996">
+    <state width="1323" height="187" key="GridCell.Tab.0.bottom" timestamp="1590554862461">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="58" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1590213972996" />
-    <state width="1323" height="58" key="GridCell.Tab.0.center" timestamp="1590213972996">
+    <state width="1323" height="187" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1590554862461" />
+    <state width="1323" height="187" key="GridCell.Tab.0.center" timestamp="1590554862461">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="58" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1590213972996" />
-    <state width="1323" height="58" key="GridCell.Tab.0.left" timestamp="1590213972995">
+    <state width="1323" height="187" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1590554862461" />
+    <state width="1323" height="187" key="GridCell.Tab.0.left" timestamp="1590554862461">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="58" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1590213972995" />
-    <state width="1323" height="58" key="GridCell.Tab.0.right" timestamp="1590213972996">
+    <state width="1323" height="187" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1590554862461" />
+    <state width="1323" height="187" key="GridCell.Tab.0.right" timestamp="1590554862461">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="58" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1590213972996" />
+    <state width="1323" height="187" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1590554862461" />
     <state width="1323" height="223" key="GridCell.Tab.1.bottom" timestamp="1585053016724">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

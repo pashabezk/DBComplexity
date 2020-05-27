@@ -1,3 +1,4 @@
+import Configs.IConfig
 import javafx.geometry.Pos
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
@@ -88,24 +89,24 @@ class TableShape (
 
     companion object
     {
-        @JvmStatic var CLR_SHAPE_NOT_SELECTED: Color = CONFIG.DEFAULT_CLR_SHAPE_NOT_SELECTED //цвет не выбранного прямоугольника
-        @JvmStatic var CLR_TEXT_NOT_SELECTED: Color = CONFIG.DEFAULT_CLR_TEXT_NOT_SELECTED //цвет не выбранного текста
-        @JvmStatic var CLR_SHAPE_SELECTED: Color = CONFIG.DEFAULT_CLR_SHAPE_SELECTED //цвет выбранного прямоугольника
-        @JvmStatic var CLR_TEXT_SELECTED: Color = CONFIG.DEFAULT_CLR_TEXT_SELECTED //цвет не выбранного текста
+        @JvmStatic var CLR_SHAPE_NOT_SELECTED: Color = IConfig.DEFAULT_CLR_SHAPE_NOT_SELECTED //цвет не выбранного прямоугольника
+        @JvmStatic var CLR_TEXT_NOT_SELECTED: Color = IConfig.DEFAULT_CLR_TEXT_NOT_SELECTED //цвет не выбранного текста
+        @JvmStatic var CLR_SHAPE_SELECTED: Color = IConfig.DEFAULT_CLR_SHAPE_SELECTED //цвет выбранного прямоугольника
+        @JvmStatic var CLR_TEXT_SELECTED: Color = IConfig.DEFAULT_CLR_TEXT_SELECTED //цвет не выбранного текста
 
-        @JvmStatic var FONT_SIZE_AUTO: Boolean = CONFIG.DEFAULT_FONT_SIZE_AUTO //автоматический расчёт размера шрифта
-        @JvmStatic var FONT_SIZE: Double = CONFIG.DEFAULT_FONT_SIZE //размер шрифта
+        @JvmStatic var FONT_SIZE_AUTO: Boolean = IConfig.DEFAULT_FONT_SIZE_AUTO //автоматический расчёт размера шрифта
+        @JvmStatic var FONT_SIZE: Double = IConfig.DEFAULT_FONT_SIZE //размер шрифта
 
         @JvmStatic
         fun setPropertiesFromConfig()
         {
-            CLR_SHAPE_NOT_SELECTED = CONFIG.CLR_SHAPE_NOT_SELECTED //цвет не выбранного прямоугольника
-            CLR_TEXT_NOT_SELECTED = CONFIG.CLR_TEXT_NOT_SELECTED //цвет не выбранного текста
-            CLR_SHAPE_SELECTED = CONFIG.CLR_SHAPE_SELECTED //цвет выбранного прямоугольника
-            CLR_TEXT_SELECTED = CONFIG.CLR_TEXT_SELECTED //цвет не выбранного текста
+            CLR_SHAPE_NOT_SELECTED = IConfig.CLR_SHAPE_NOT_SELECTED //цвет не выбранного прямоугольника
+            CLR_TEXT_NOT_SELECTED = IConfig.CLR_TEXT_NOT_SELECTED //цвет не выбранного текста
+            CLR_SHAPE_SELECTED = IConfig.CLR_SHAPE_SELECTED //цвет выбранного прямоугольника
+            CLR_TEXT_SELECTED = IConfig.CLR_TEXT_SELECTED //цвет не выбранного текста
 
-            FONT_SIZE_AUTO = CONFIG.FONT_SIZE_AUTO
-            FONT_SIZE = CONFIG.FONT_SIZE
+            FONT_SIZE_AUTO = IConfig.FONT_SIZE_AUTO
+            FONT_SIZE = IConfig.FONT_SIZE
         }
     }
 }

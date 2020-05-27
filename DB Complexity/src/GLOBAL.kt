@@ -11,6 +11,7 @@ class GLOBAL
         @JvmStatic public val TITLE: String = "DBComplexity" //заголовок приложения
         @JvmStatic public val ICONURL: String = "Resources/icon.png" //адрес иконки приложения
         @JvmStatic public val INTERFACE_CONFIG_FILE_URL: String = "files/Interface.config" //адрес файла конфигурации интерфейса приложения
+        @JvmStatic public val CONNECTION_CONFIG_FILE_URL: String = "files/Connection.config" //адрес файла конфигурации подключения к MySQL
         @JvmStatic public val WEIGHT_PARAM_CONFIG_FILE_URL: String = "files/WeightParameters.config" //адрес файла конфигурации весовых коэффициентов
 
         //описание ошибок

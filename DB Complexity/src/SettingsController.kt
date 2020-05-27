@@ -1,3 +1,4 @@
+import Configs.IConfig
 import Configs.WConfig
 import javafx.collections.FXCollections.observableArrayList
 import javafx.event.ActionEvent
@@ -58,17 +59,17 @@ class SettingsController
     private fun setInterfacePropertiesFromConfig()
     {
         //установка цветов, полученных из файла конфигурации в color picker'ы
-        fxClrShapeNSelected.value = CONFIG.CLR_SHAPE_NOT_SELECTED
-        fxClrTextNSelected.value = CONFIG.CLR_TEXT_NOT_SELECTED
-        fxClrShapeSelected.value = CONFIG.CLR_SHAPE_SELECTED
-        fxClrTextSelected.value = CONFIG.CLR_TEXT_SELECTED
+        fxClrShapeNSelected.value = IConfig.CLR_SHAPE_NOT_SELECTED
+        fxClrTextNSelected.value = IConfig.CLR_TEXT_NOT_SELECTED
+        fxClrShapeSelected.value = IConfig.CLR_SHAPE_SELECTED
+        fxClrTextSelected.value = IConfig.CLR_TEXT_SELECTED
 
-        if (CONFIG.FONT_SIZE_AUTO) //если включена настройка автоматического размера шрифта
+        if (IConfig.FONT_SIZE_AUTO) //если включена настройка автоматического размера шрифта
         {
             fxRadioAuto.isSelected = true //установка пункта "Автоматический"
             fxFontSize.isDisable = true //сделать combo box недействительным
-            example1.fontSize = CONFIG.DEFAULT_FONT_SIZE //установка размера шрифта по умолчанию
-            example2.fontSize = CONFIG.DEFAULT_FONT_SIZE //установка размера шрифта по умолчанию
+            example1.fontSize = IConfig.DEFAULT_FONT_SIZE //установка размера шрифта по умолчанию
+            example2.fontSize = IConfig.DEFAULT_FONT_SIZE //установка размера шрифта по умолчанию
         }
         else fxRadioCustom.isSelected = true //установка пункта "Фиксированный"
     }
@@ -104,13 +105,13 @@ class SettingsController
     {
         /*подготовка вкладки с настройкой интерфейса*/
 
-        CONFIG.getProperties() //загрузка конфигурации интерфейса из файла
+        IConfig.getProperties() //загрузка конфигурации интерфейса из файла
 
         setInterfacePropertiesFromConfig()
 
         //установка параметров настройки шрифта из файла конфигурации
         var list = ArrayList<Int>()
-        list.add(CONFIG.FONT_SIZE.toInt()) //текущий размер шрифта помещается первым в список
+        list.add(IConfig.FONT_SIZE.toInt()) //текущий размер шрифта помещается первым в список
         for (i in 10 until 27 step 2)
             list.add(i) //заполнение списка размеров шрифтов
         fxFontSize.items = observableArrayList(list) //установка списка
@@ -132,21 +133,21 @@ class SettingsController
 
         //установка прослушивателей на изменение цветов
         fxClrShapeNSelected.valueProperty().addListener { observable, oldValue, newValue -> //изменение цвета не выбранной формы
-            CONFIG.CLR_SHAPE_NOT_SELECTED = newValue
+            IConfig.CLR_SHAPE_NOT_SELECTED = newValue
             example1.clrShapeNSelected = newValue
         }
         fxClrTextNSelected.valueProperty().addListener { observable, oldValue, newValue -> //изменение цвета текста не выбранной формы
-            CONFIG.CLR_TEXT_NOT_SELECTED = newValue
+            IConfig.CLR_TEXT_NOT_SELECTED = newValue
             example1.clrTextNSelected = newValue
         }
         fxClrShapeSelected.valueProperty().addListener { observable, oldValue, newValue -> //изменение цвета выбранной формы
-            CONFIG.CLR_SHAPE_SELECTED = newValue
+            IConfig.CLR_SHAPE_SELECTED = newValue
             example1.clrShapeSelected = newValue
             example2.clrShapeSelected = newValue
             example2.clrShapeNSelected = newValue
         }
         fxClrTextSelected.valueProperty().addListener { observable, oldValue, newValue -> //изменение цвета текста выбранной формы
-            CONFIG.CLR_TEXT_SELECTED = newValue
+            IConfig.CLR_TEXT_SELECTED = newValue
             example1.clrTextSelected = newValue
             example2.clrTextSelected = newValue
             example2.clrTextNSelected = newValue
@@ -154,15 +155,15 @@ class SettingsController
 
         //установка прослушивателей на изменение параметров настройки шрифта
         fxRadioAuto.onAction = EventHandler { //при выборе "автоматический"
-            CONFIG.FONT_SIZE_AUTO = true
+            IConfig.FONT_SIZE_AUTO = true
             fxFontSize.isDisable = true //сделать combo box недействительным
 
             //изменение размера шрифта на образцах
-            example1.fontSize = CONFIG.DEFAULT_FONT_SIZE
-            example2.fontSize = CONFIG.DEFAULT_FONT_SIZE
+            example1.fontSize = IConfig.DEFAULT_FONT_SIZE
+            example2.fontSize = IConfig.DEFAULT_FONT_SIZE
         }
         fxRadioCustom.onAction = EventHandler { //при выборе "фиксированный"
-            CONFIG.FONT_SIZE_AUTO = false
+            IConfig.FONT_SIZE_AUTO = false
             fxFontSize.isDisable = false //сделать combo box действительным
 
             //изменение размера шрифта на образцах
@@ -170,7 +171,7 @@ class SettingsController
             example2.fontSize = fxFontSize.value.toDouble()
         }
         fxFontSize.valueProperty().addListener { observable, oldValue, newValue -> //при установке размера шрифта
-            CONFIG.FONT_SIZE = fxFontSize.value.toDouble()
+            IConfig.FONT_SIZE = fxFontSize.value.toDouble()
             example1.fontSize = newValue.toDouble()
             example2.fontSize = newValue.toDouble()
         }
@@ -185,7 +186,7 @@ class SettingsController
             fxDefaulInterface.scaleY = 1.0
         }
         fxDefaulInterface.onMouseClicked = EventHandler<MouseEvent?> { //установка параметров интерфейса в значения по умолчанию
-            CONFIG.setDefault() //установка значений по умолчанию
+            IConfig.setDefault() //установка значений по умолчанию
             setInterfacePropertiesFromConfig()
         }
 
@@ -223,13 +224,13 @@ class SettingsController
 
     @FXML fun handleButtonCancel(event: ActionEvent)
     {
-        CONFIG.getProperties() //загрузка предыдущей конфигурации интерфейса из файла
+        IConfig.getProperties() //загрузка предыдущей конфигурации интерфейса из файла
         ((event.source as Node).scene.window as Stage).close() //закрыть текущее окно
     }
 
     @FXML fun handleButtonSave(event: ActionEvent)
     {
-        CONFIG.saveProperties() //сохранение конфигурации интерфейса
+        IConfig.saveProperties() //сохранение конфигурации интерфейса
 
         //сохранение результатов настройки весовых коэффициентов
         WConfig.WMetrics[0] = fxW1.text.toDouble()

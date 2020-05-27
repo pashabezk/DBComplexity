@@ -1,10 +1,14 @@
+package Configs
+
+import GLOBAL
+import TableShape
 import javafx.scene.paint.Color
 import java.io.File
 import java.io.FileOutputStream
 import java.io.FileReader
 import java.util.*
 
-class CONFIG
+class IConfig
 {
     companion object
     {
@@ -40,8 +44,8 @@ class CONFIG
                 CLR_TEXT_NOT_SELECTED = Color.web(properties.getProperty("CLR_TEXT_NOT_SELECTED", TableShape.CLR_TEXT_NOT_SELECTED.toString()))
                 CLR_SHAPE_SELECTED = Color.web(properties.getProperty("CLR_SHAPE_SELECTED", TableShape.CLR_SHAPE_SELECTED.toString()))
                 CLR_TEXT_SELECTED = Color.web(properties.getProperty("CLR_TEXT_SELECTED", TableShape.CLR_TEXT_SELECTED.toString()))
-                FONT_SIZE_AUTO = properties.getProperty("FONT_SIZE_AUTO", ""+TableShape.FONT_SIZE_AUTO).toBoolean()
-                FONT_SIZE = properties.getProperty("FONT_SIZE", ""+TableShape.FONT_SIZE).toDouble()
+                FONT_SIZE_AUTO = properties.getProperty("FONT_SIZE_AUTO", ""+ TableShape.FONT_SIZE_AUTO).toBoolean()
+                FONT_SIZE = properties.getProperty("FONT_SIZE", ""+ TableShape.FONT_SIZE).toDouble()
 
                 TableShape.setPropertiesFromConfig() //установка параметров в TableShape
             }
