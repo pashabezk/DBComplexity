@@ -107,11 +107,11 @@ class DBComplexityController
                 if(WConfig.ColumnProperties[i-5]) //проверка, не отключен ли подсчёт данных ограничений
                     factors[i].text += DFormat.format(WConfig.WMetrics[4])
                 else makeLabelsGray(i)
+
+            DBHandler.addHistory(MainWindowController.DBSelected, complexity)
         }
     }
 
     @FXML fun handleButtonOK(event: ActionEvent)
-    {
-        ((event.source as Node).scene.window as Stage).close() //закрыть текущее окно
-    }
+    {((event.source as Node).scene.window as Stage).close() }//закрыть текущее окно
 }

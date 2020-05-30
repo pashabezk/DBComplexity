@@ -8,6 +8,8 @@ public class DBHandler
 {
     companion object
     {
+        @JvmStatic private val DBHISTORY: String = "/dbcomplexity" //название БД для работы с историей расчётов
+
         @JvmStatic private var DBConnection: Connection? = null
 
         @JvmStatic var DBMS_URL: String = ""
@@ -16,7 +18,7 @@ public class DBHandler
         @JvmStatic var password: String = ""
 
         @Throws(SQLException::class)
-        fun getDBConnection(): Connection? {
+        fun getDBConnection(DBName: String = "/information_schema"): Connection? {
             if (DBConnection == null) //проверка не открыт ли уже доступ к БД
             {
                 val p = Properties() //создание параметров для подключения к БД
@@ -25,7 +27,7 @@ public class DBHandler
                 p.setProperty("useUnicode", "true")
                 p.setProperty("characterEncoding", "cp1251")
                 DBConnection = DriverManager.getConnection(
-                    "jdbc:mysql://" + DBMS_URL + (if(port != "") ":$port" else "") + "/information_schema", p) //создание подключения к БД
+                    "jdbc:mysql://" + DBMS_URL + (if(port != "") ":$port" else "") + DBName, p) //создание подключения к БД
             }
             return DBConnection
         }
@@ -42,10 +44,9 @@ public class DBHandler
         {
             var al: ArrayList<String> = ArrayList<String>()
             try {
-                val result = getDBConnection()!!.createStatement()
-                    .executeQuery("select distinct TABLE_SCHEMA from tables;")
+                val result = getDBConnection()!!.createStatement().executeQuery("show databases;")
                 while (result.next()) {
-                    al.add(result.getString("TABLE_SCHEMA"))
+                    al.add(result.getString("database"))
                 }
                 closeDB()
             } catch (e: SQLException) {e.printStackTrace()}
@@ -146,6 +147,60 @@ public class DBHandler
                 closeDB()
             } catch (e: SQLException) {e.printStackTrace()}
             return metrics
+        }
+
+        @JvmStatic
+        fun getHistory(): ArrayList<HistoryController.HistoryTV> //получение списка баз данных
+        {
+            var al: ArrayList<HistoryController.HistoryTV> = ArrayList()
+            try {
+                val result = getDBConnection(DBHISTORY)!!.createStatement().executeQuery("select * from history;")
+                while (result.next()) {
+                    al.add(HistoryController.HistoryTV(result.getInt("id"),
+                        result.getString("dbname"), result.getDouble("complexity"),
+                        result.getString("ddate") + " " + result.getString("ttime"), result.getString("comment")))
+                }
+                closeDB()
+            } catch (e: SQLException) {e.printStackTrace()}
+            return al
+        }
+
+        @JvmStatic
+        fun addHistory(DBName: String, complexity: Double): Int //удаление истории расчёта сложности
+        {
+            var ret: Int = 0 //в случае успешного удаления возвращается 1, иначе 0
+            try {
+                getDBConnection(DBHISTORY)!!.createStatement().executeUpdate("insert into history values(default,'$DBName',$complexity,curdate(), curtime(),'');")
+                closeDB()
+                ret = 1
+            } catch (e: SQLException) {e.printStackTrace()}
+            return ret
+        }
+
+        @JvmStatic
+        fun updateHistory(id: Int, comment: String): Int //удаление истории расчёта сложности
+        {
+            var ret: Int = 0 //в случае успешного редактирования возвращается 1, иначе 0
+            try {
+                getDBConnection(DBHISTORY)!!.createStatement().executeUpdate("update history set comment='$comment' where id=$id;")
+                closeDB()
+                ret = 1
+            } catch (e: SQLException) {e.printStackTrace()}
+            return ret
+        }
+
+        @JvmStatic
+        fun deleteHistory(id: Int = -1): Int //удаление истории расчёта сложности
+        {
+            //если id==-1, то удалить всю историю, иначе только запись по её идентификатору
+            var ret: Int = 0 //в случае успешного удаления возвращается 1, иначе 0
+            try {
+                getDBConnection(DBHISTORY)!!.createStatement().executeUpdate("delete from history" +
+                        if(id == -1) "" else {" where id=$id"} + ";")
+                closeDB()
+                ret = 1
+            } catch (e: SQLException) {e.printStackTrace()}
+            return ret
         }
     }
 }

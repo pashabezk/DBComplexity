@@ -159,4 +159,9 @@ class MainWindowController
         fxList.items.clear() //очистка списка БД
         fxList.items.addAll(FXCollections.observableArrayList(DBHandler.getDatabases())) //получение списка баз данных и помещение его в левую панель
     }
+
+    @FXML fun handleButtonHistory(event: ActionEvent) //кнопка "История"
+    {
+        GLOBAL.loadFXMLWindow("History.fxml", GLOBAL.TITLE + " - История расчёта", 510.0, 400.0) //запуск окна истории расчётов
+    }
 }
