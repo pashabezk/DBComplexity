@@ -31,5 +31,10 @@
             <Font size="14.0" />
          </font>
       </Label>
+      <Label fx:id="fxErrMsg" layoutX="30.0" layoutY="413.0" textFill="RED" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="30.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

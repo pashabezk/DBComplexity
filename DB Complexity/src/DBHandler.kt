@@ -56,7 +56,7 @@ public class DBHandler
         @JvmStatic
         fun getTables(database: String): ArrayList<String> //получение списка таблиц БД
         {
-            var al: ArrayList<String> = ArrayList<String>()
+            var al: ArrayList<String> = ArrayList()
             try {
                 val result = getDBConnection()!!.createStatement()
                     .executeQuery("select TABLE_NAME from tables where TABLE_SCHEMA='$database';")
@@ -64,14 +64,17 @@ public class DBHandler
                     al.add(result.getString("TABLE_NAME"))
                 }
                 closeDB()
-            } catch (e: SQLException) {e.printStackTrace()}
+            } catch (e: SQLException) {
+                e.printStackTrace()
+                al.add(GLOBAL.ERROR) //создание маркера ошибки в первой записи
+            }
             return al
         }
 
         @JvmStatic
         fun getDependTables(database: String): ArrayList<MainWindowController.ArrowDrawObject> //получение списка зависимых таблиц (главная таблица - зависимая)
         {
-            var al: ArrayList<MainWindowController.ArrowDrawObject> = ArrayList<MainWindowController.ArrowDrawObject>()
+            var al: ArrayList<MainWindowController.ArrowDrawObject> = ArrayList()
             try {
                 val result = getDBConnection()!!.createStatement()
                     .executeQuery("select referenced_table_name as main, table_name as depend from referential_constraints where constraint_schema='$database';")
@@ -79,7 +82,10 @@ public class DBHandler
                     al.add(MainWindowController.ArrowDrawObject(result.getString("main"), result.getString("depend")))
                 }
                 closeDB()
-            } catch (e: SQLException) {e.printStackTrace()}
+            } catch (e: SQLException) {
+                e.printStackTrace()
+                al.add(MainWindowController.ArrowDrawObject(GLOBAL.ERROR, "")) //создание маркера ошибки в первой записи
+            }
             return al
         }
 
@@ -161,7 +167,10 @@ public class DBHandler
                         result.getString("ddate") + " " + result.getString("ttime"), result.getString("comment")))
                 }
                 closeDB()
-            } catch (e: SQLException) {e.printStackTrace()}
+            } catch (e: SQLException) {
+                e.printStackTrace()
+                al.add(HistoryController.HistoryTV(-1, GLOBAL.ERR_NO_CONNECTION_MYSQL, 0.0, "", ""))
+            }
             return al
         }
 

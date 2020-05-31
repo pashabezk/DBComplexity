@@ -15,6 +15,7 @@ class DBComplexityController
     @FXML private lateinit var fxAnchorPane: AnchorPane //панель, на которую будет помещена информация о расчётах
     @FXML private lateinit var fxTitle: Label //заголовок окна
     @FXML private lateinit var fxSumm: Label //лейбл, содержащий сумму критериев сложности: общая сложность БД/таблицы
+    @FXML private lateinit var fxErrMsg: Label //лейбл вывода ошибки
 
     public var type: Int = 0 //тип оценки сложности
     //0 - сложность БД
@@ -26,14 +27,15 @@ class DBComplexityController
             var metrics: IntArray //массив, содержащий метрики
             if(type == 1)
             {
-                metrics =  DBHandler.getTableMetrics(MainWindowController.DBSelected, MainWindowController.TblSelected) //получение метрик таблицы
                 fxTitle.text += "таблицы «" + MainWindowController.TblSelected + "»"
+                metrics =  DBHandler.getTableMetrics(MainWindowController.DBSelected, MainWindowController.TblSelected) //получение метрик таблицы
             }
             else
             {
-                metrics =  DBHandler.getDBMetrics(MainWindowController.DBSelected) //получение метрик БД
                 fxTitle.text += "БД «" + MainWindowController.DBSelected + "»"
+                metrics =  DBHandler.getDBMetrics(MainWindowController.DBSelected) //получение метрик БД
             }
+            if(metrics[0] == -1) fxErrMsg.text = GLOBAL.ERR_NO_CONNECTION_MYSQL //если не удалось подключиться к MySQL
 
             //расчёт сложности
             var complexity:Double  =  0.0 //переменная, хранящая сложность
@@ -108,7 +110,8 @@ class DBComplexityController
                     factors[i].text += DFormat.format(WConfig.WMetrics[4])
                 else makeLabelsGray(i)
 
-            DBHandler.addHistory(MainWindowController.DBSelected, complexity)
+            if (type == 0) //если производился расчёт сложности БД
+                DBHandler.addHistory(MainWindowController.DBSelected, complexity) //добавление новой записи в историю расчётов
         }
     }
 

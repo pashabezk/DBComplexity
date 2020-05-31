@@ -33,10 +33,11 @@
                     <children>
                   <AnchorPane fx:id="fxDrawPane" layoutX="37.0" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <Label fx:id="lbSelectDB" alignment="CENTER" layoutX="149.0" layoutY="202.0" text="Выберите базу данных" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <Button mnemonicParsing="false" onAction="#handleButtonCalculateDBComplexity" text="Рассчитать сложность БД" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                  <Button fx:id="fxCalculateButton" disable="true" mnemonicParsing="false" text="Рассчитать сложность БД" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
+                  <Label fx:id="fxErrMsg" layoutX="28.0" layoutY="527.0" textFill="RED" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="30.0" />
                     </children>
                 </AnchorPane>
             </items>

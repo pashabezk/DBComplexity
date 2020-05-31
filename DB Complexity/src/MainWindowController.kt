@@ -1,13 +1,16 @@
+import Animations.Attenuation
 import javafx.collections.FXCollections
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
+import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.ListView
 import javafx.scene.image.Image
 import javafx.scene.layout.AnchorPane
+import javafx.scene.paint.Color
 import javafx.scene.shape.Line
 import javafx.stage.Stage
 import java.lang.Math.PI
@@ -22,16 +25,22 @@ class MainWindowController
         @JvmStatic public var TblSelected: String = "" //выбранная таблица
     }
 
-    @FXML private lateinit var fxList: ListView<String>
-    @FXML private lateinit var fxSecondPane: AnchorPane
-    @FXML private lateinit var fxDrawPane: AnchorPane
-    @FXML private lateinit var lbSelectDB: Label
+    @FXML private lateinit var fxList: ListView<String> //список БД
+    @FXML private lateinit var fxSecondPane: AnchorPane //панель во второй части SplitPane
+    @FXML private lateinit var fxDrawPane: AnchorPane //панель, на которую помещается концептуальный граф
+    @FXML private lateinit var lbSelectDB: Label //лейбл "Выберите базу данных"
+    @FXML private lateinit var fxErrMsg: Label //лейбл для вывода ошибок
+    @FXML private lateinit var fxCalculateButton: Button //кнопка "Рассчитать сложность БД"
 
     private var tables: ArrayList<TableShape> = ArrayList()
     private var arrows: ArrayList<ArrowDrawObject> = ArrayList()
 
-    fun initialize()
+    private lateinit var pushUp: Attenuation //объект анимации
+
+    fun initialize() //функция, запускающаяся автоматически при включении окна
     {
+        pushUp = Attenuation(fxErrMsg) //добавление лейбла вывода ошибок в объект анимации
+
         fxList.items.addAll(FXCollections.observableArrayList(DBHandler.getDatabases())) //получение списка баз данных и помещение его в левую панель
 
         fxList.selectionModel.selectedItemProperty().addListener { changed, oldValue, newValue -> //прослушиватель на список БД, чтобы обновлять отрисовку таблиц
@@ -44,22 +53,32 @@ class MainWindowController
 
         fxDrawPane.widthProperty().addListener { observable, oldValue, newValue -> draw() } //прослушиватель на изменение ширины окна
         fxDrawPane.heightProperty().addListener { observable, oldValue, newValue -> draw() } // прослушиватель на изменение высоты окна
+
+        fxCalculateButton.onAction = //прослушиватель на кнопку "Расчёт сложности БД"
+            EventHandler { GLOBAL.loadFXMLWindow("DBComplexity.fxml", GLOBAL.TITLE + " - " + DBSelected, 510.0, 400.0) } //запуск окна расчёта сложности БД
     }
 
     private fun createTableShapes(DBName: String)
     {
-        var al: ArrayList<String>? = DBName?.let { DBHandler.getTables(it) } //получение списка таблиц БД
-        tables.clear()
-        if (al != null)
+        var al: ArrayList<String> = DBHandler.getTables(DBName) //получение списка таблиц БД
+        if (al[0] == GLOBAL.ERROR) //если в первой записи есть маркер ошибки
+            pushUp(GLOBAL.ERR_NO_CONNECTION_MYSQL) //вывести ошибку подключения к MySQL
+        else
         {
-            arrows = DBName?.let { DBHandler.getDependTables(it) }!! //получение списка зависимых таблиц
+            tables.clear() //очистка списка форм
             for(i in 0 until al.size)
-                tables.add(TableShape(al[i]))
+                tables.add(TableShape(al[i])) //создание списка форм
+
+            arrows = DBHandler.getDependTables(DBName) //получение списка зависимых таблиц
+            if(arrows.size > 0)
+                if (arrows[0].mainTable == GLOBAL.ERROR) //если в первой записи есть маркер ошибки
+                    pushUp(GLOBAL.ERR_NO_CONNECTION_MYSQL) //вывести ошибку подключения к MySQL
+
             draw()
         }
     }
 
-    public class ArrowDrawObject (mainTable: String, dependTable: String)
+    public class ArrowDrawObject (mainTable: String, dependTable: String) //описание соединения между формами
     {
         var mainTable: String = mainTable
         var dependTable: String = dependTable
@@ -88,7 +107,10 @@ class MainWindowController
     private fun draw()
     {
         if (tables.isNotEmpty()) //если таблицы не получены, то очищать не надо (необходимо, чтобы при первом заходе был виден лейбл "выберите БД")
+        {
             fxSecondPane.children.remove(lbSelectDB) //удаление надписи "выберите БД"
+            fxCalculateButton.isDisable = false //сделать кнопку "Расчёт сложности БД" активной
+        }
 
         fxDrawPane.children.clear() //очистка панели
 
@@ -143,15 +165,16 @@ class MainWindowController
         }
     }
 
+    private fun pushUp(message: String) //создание пуш-ап анимации
+    {
+        fxErrMsg.text = message
+        pushUp.playAnim()
+    }
+
     @FXML fun handleButtonSettings(event: ActionEvent) //кнопка "настройки"
     {
         GLOBAL.loadFXMLWindow("Settings.fxml", GLOBAL.TITLE + " - настройки", 540.0, 530.0) //запуск окна настроек
-            .setOnHiding{ event -> createTableShapes(DBSelected) } //при закрытии окна настроек перерисовать граф
-    }
-
-    @FXML fun handleButtonCalculateDBComplexity(event: ActionEvent) //кнопка "рассчитать сложность БД"
-    {
-        GLOBAL.loadFXMLWindow("DBComplexity.fxml", GLOBAL.TITLE + " - " + DBSelected, 510.0, 400.0) //запуск окна расчёта сложности БД
+            .setOnHiding{ createTableShapes(DBSelected) } //при закрытии окна настроек перерисовать граф
     }
 
     @FXML fun handleButtonReload(event: ActionEvent) //кнопка "обновить 🔃"
