@@ -42,14 +42,17 @@ public class DBHandler
         @JvmStatic
         fun getDatabases(): ArrayList<String> //получение списка баз данных
         {
-            var al: ArrayList<String> = ArrayList<String>()
+            var al: ArrayList<String> = ArrayList()
             try {
                 val result = getDBConnection()!!.createStatement().executeQuery("show databases;")
                 while (result.next()) {
                     al.add(result.getString("database"))
                 }
                 closeDB()
-            } catch (e: SQLException) {e.printStackTrace()}
+            } catch (e: SQLException) {
+                e.printStackTrace()
+                al.add(GLOBAL.ERROR) //создание маркера ошибки в первой записи
+            }
             return al
         }
 

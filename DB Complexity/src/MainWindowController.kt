@@ -10,7 +10,6 @@ import javafx.scene.control.Label
 import javafx.scene.control.ListView
 import javafx.scene.image.Image
 import javafx.scene.layout.AnchorPane
-import javafx.scene.paint.Color
 import javafx.scene.shape.Line
 import javafx.stage.Stage
 import java.lang.Math.PI
@@ -41,11 +40,9 @@ class MainWindowController
     {
         pushUp = Attenuation(fxErrMsg) //добавление лейбла вывода ошибок в объект анимации
 
-        fxList.items.addAll(FXCollections.observableArrayList(DBHandler.getDatabases())) //получение списка баз данных и помещение его в левую панель
-
+        initDBList() //получение списка баз данных и помещение его в левую панель
         fxList.selectionModel.selectedItemProperty().addListener { changed, oldValue, newValue -> //прослушиватель на список БД, чтобы обновлять отрисовку таблиц
-            if (newValue != null)
-            {
+            if (newValue != null) {
                 DBSelected = newValue
                 createTableShapes(newValue)
             }
@@ -104,6 +101,14 @@ class MainWindowController
         stage.show()
     }
 
+    private fun initDBList() //создание/обновления списка баз данных
+    {
+        var list = DBHandler.getDatabases() //получение списка баз данных
+        if (list[0] == GLOBAL.ERROR) //если в первой записи содержится маркер ошибки
+            pushUp(GLOBAL.ERR_NO_CONNECTION_MYSQL) //вывести сообщение об ошибке
+        else fxList.items = FXCollections.observableArrayList(list) //помещение списка в левую панель
+    }
+
     private fun draw()
     {
         if (tables.isNotEmpty()) //если таблицы не получены, то очищать не надо (необходимо, чтобы при первом заходе был виден лейбл "выберите БД")
@@ -118,7 +123,8 @@ class MainWindowController
         var centerY = fxDrawPane.height / 2 //центральная координата Y во второй части splitPane
         var R = if (centerX < centerY) centerX*4/5 else centerY*4/5 //радиус окружности, по контуру которой будут размещены элементы
 
-        var rectHeight = (if (centerX < centerY) fxDrawPane.width else fxDrawPane.height) / tables.size //высота прямоугольника
+        var rectHeight = (if (centerX < centerY) fxDrawPane.width else fxDrawPane.height) /
+                (if (tables.size > 3) tables.size else 5) //высота прямоугольника
         var rectWidth = rectHeight + rectHeight/4 //ширина прямоугольника
 
         for(i in 0 until tables.size)
@@ -141,14 +147,13 @@ class MainWindowController
                 }
             }
 
-            //добавление прослушивателя на нажатие контейнера
-            tables[i].box.onMouseClicked = EventHandler { event ->
+            tables[i].box.onMouseClicked = EventHandler { //добавление прослушивателя на нажатие контейнера
                 TblSelected = tables[i].tableName
                 createTblComplexityWindow()
             }
         }
 
-        var fontSize = if(R<150) 12.0 else if(R<300) 16.0 else 18.0 //размер шрифта
+        var fontSize = R/15.0 //размер шрифта
 
         for(i in 0 until arrows.size) //отрисовка стрелок
         {
@@ -173,14 +178,14 @@ class MainWindowController
 
     @FXML fun handleButtonSettings(event: ActionEvent) //кнопка "настройки"
     {
-        GLOBAL.loadFXMLWindow("Settings.fxml", GLOBAL.TITLE + " - настройки", 540.0, 530.0) //запуск окна настроек
-            .setOnHiding{ createTableShapes(DBSelected) } //при закрытии окна настроек перерисовать граф
+        val stage = GLOBAL.loadFXMLWindow("Settings.fxml", GLOBAL.TITLE + " - настройки", 540.0, 530.0) //запуск окна настроек
+        if (DBSelected != "") //если какая-то из БД уже выбрана
+            stage.setOnHiding{ createTableShapes(DBSelected) } //при закрытии окна настроек перерисовать граф
     }
 
     @FXML fun handleButtonReload(event: ActionEvent) //кнопка "обновить 🔃"
     {
-        fxList.items.clear() //очистка списка БД
-        fxList.items.addAll(FXCollections.observableArrayList(DBHandler.getDatabases())) //получение списка баз данных и помещение его в левую панель
+        initDBList()
     }
 
     @FXML fun handleButtonHistory(event: ActionEvent) //кнопка "История"
