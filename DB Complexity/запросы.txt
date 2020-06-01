@@ -83,3 +83,10 @@ select col,pk,fk,ind_u,ind_nu,au_i,uniq,nn,def from
 (select count(*) as uniq from table_constraints where table_schema='sessia' and table_name='exam' and constraint_type='UNIQUE')t7,
 (select count(*) as nn from columns where table_schema='sessia' and table_name='exam' and is_nullable='NO')t8,
 (select count(*) as def from columns where table_schema='sessia' and table_name='exam' and column_default!=null)t9;
+
+
+#создание таблицы хранения истории расчётов
+drop database if exists dbcomplexity;
+create database if not exists dbcomplexity default charset cp1251;
+use dbcomplexity;
+create table if not exists history (id int primary key auto_increment, dbname varchar(50), complexity real, ddate date, ttime time, comment varchar(300)) engine=InnoDB;

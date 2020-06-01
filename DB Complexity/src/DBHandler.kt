@@ -159,6 +159,21 @@ public class DBHandler
         }
 
         @JvmStatic
+        fun createHistoryDatabase(): Int //создание БД для хранения истории расчётов
+        {
+            try {
+                getDBConnection("")!!.createStatement().executeUpdate("create database if not exists dbcomplexity default charset cp1251;") //создание базы данных
+                closeDB()
+                getDBConnection(DBHISTORY)!!.createStatement().executeUpdate("create table if not exists history (id int primary key auto_increment, dbname varchar(50), complexity real, ddate date, ttime time, comment varchar(300)) engine=InnoDB;") //создание таблицы
+                closeDB()
+            } catch (e: SQLException) {
+                e.printStackTrace()
+                return 0 // в случае ошибки возвращается 0
+            }
+            return 1 //в случае успешного создания возвращается 1
+        }
+
+        @JvmStatic
         fun getHistory(): ArrayList<HistoryController.HistoryTV> //получение списка баз данных
         {
             var al: ArrayList<HistoryController.HistoryTV> = ArrayList()
@@ -172,25 +187,31 @@ public class DBHandler
                 closeDB()
             } catch (e: SQLException) {
                 e.printStackTrace()
-                al.add(HistoryController.HistoryTV(-1, GLOBAL.ERR_NO_CONNECTION_MYSQL, 0.0, "", ""))
+                if (createHistoryDatabase() == 1) //если ошибка была вызвана отсутствием наличия таблицы истории, то попытка её создать
+                    getHistory()
+                else al.add(HistoryController.HistoryTV(-1, GLOBAL.ERR_NO_CONNECTION_MYSQL, 0.0, "", ""))
             }
             return al
         }
 
         @JvmStatic
-        fun addHistory(DBName: String, complexity: Double): Int //удаление истории расчёта сложности
+        fun addHistory(DBName: String, complexity: Double): Int //добавление записи расчёта сложности
         {
-            var ret: Int = 0 //в случае успешного удаления возвращается 1, иначе 0
+            var ret: Int = 0 //в случае успешного добавления возвращается 1, иначе 0
             try {
                 getDBConnection(DBHISTORY)!!.createStatement().executeUpdate("insert into history values(default,'$DBName',$complexity,curdate(), curtime(),'');")
                 closeDB()
                 ret = 1
-            } catch (e: SQLException) {e.printStackTrace()}
+            } catch (e: SQLException) {
+                e.printStackTrace()
+                if (createHistoryDatabase() == 1) //если ошибка была вызвана отсутствием наличия таблицы истории, то попытка её создать
+                    ret = addHistory(DBName, complexity) //в случае успешного создания попытка добавить запись снова
+            }
             return ret
         }
 
         @JvmStatic
-        fun updateHistory(id: Int, comment: String): Int //удаление истории расчёта сложности
+        fun updateHistory(id: Int, comment: String): Int //обновление комментария в записи расчёта сложности
         {
             var ret: Int = 0 //в случае успешного редактирования возвращается 1, иначе 0
             try {
