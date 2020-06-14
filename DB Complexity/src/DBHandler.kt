@@ -174,11 +174,11 @@ public class DBHandler
         }
 
         @JvmStatic
-        fun getHistory(): ArrayList<HistoryController.HistoryTV> //получение списка баз данных
+        fun getHistory(): ArrayList<HistoryController.HistoryTV> //получение истории расчётов
         {
             var al: ArrayList<HistoryController.HistoryTV> = ArrayList()
             try {
-                val result = getDBConnection(DBHISTORY)!!.createStatement().executeQuery("select * from history;")
+                val result = getDBConnection(DBHISTORY)!!.createStatement().executeQuery("select id, dbname, round(complexity, 3) as complexity, ddate, ttime, comment from history order by -id;")
                 while (result.next()) {
                     al.add(HistoryController.HistoryTV(result.getInt("id"),
                         result.getString("dbname"), result.getDouble("complexity"),

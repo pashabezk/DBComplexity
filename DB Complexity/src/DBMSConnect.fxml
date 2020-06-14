@@ -45,12 +45,12 @@
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="fxUser" layoutX="220.0" layoutY="160.0" text="user1" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="160.0">
+      <TextField fx:id="fxUser" layoutX="220.0" layoutY="160.0" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="160.0">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <PasswordField fx:id="fxPassword" layoutX="220.0" layoutY="200.0" text="1234" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="200.0">
+      <PasswordField fx:id="fxPassword" layoutX="220.0" layoutY="200.0" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="200.0">
          <font>
             <Font size="14.0" />
          </font>
